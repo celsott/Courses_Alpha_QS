@@ -10,7 +10,9 @@
     <include file="classpath:config/liquibase/changelog/20161030194243_added_entity_Disciplina.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20161030194447_added_entity_Sala.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20161030195747_added_entity_Turma.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20161030210216_added_entity_Avaliacao.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="classpath:config/liquibase/changelog/20161030195747_added_entity_constraints_Turma.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20161030210216_added_entity_constraints_Avaliacao.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>

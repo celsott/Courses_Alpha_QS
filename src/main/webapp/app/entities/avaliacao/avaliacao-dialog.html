@@ -1,0 +1,88 @@
+
+<form name="editForm" role="form" novalidate ng-submit="vm.save()" show-validation>
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                ng-click="vm.clear()">&times;</button>
+        <h4 class="modal-title" id="myAvaliacaoLabel" data-translate="coursesAlphaQsApp.avaliacao.home.createOrEditLabel">Create or edit a Avaliacao</h4>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" ng-show="vm.avaliacao.id">
+            <label for="id" data-translate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                    ng-model="vm.avaliacao.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="coursesAlphaQsApp.avaliacao.nota" for="field_nota">Nota</label>
+            <input type="text" class="form-control" name="nota" id="field_nota"
+                    ng-model="vm.avaliacao.nota"
+                    required ng-minlength="1" ng-maxlength="1" ng-pattern="/(^[A-D])/" />
+            <div ng-show="editForm.nota.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.nota.$error.required" data-translate="entity.validation.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.nota.$error.minlength" data-translate="entity.validation.minlength" translate-value-min="1">
+                    This field is required to be at least 1 characters.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.nota.$error.maxlength" data-translate="entity.validation.maxlength" translate-value-max="1">
+                    This field cannot be longer than 1 characters.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.nota.$error.pattern" data-translate="entity.validation.pattern" translate-value-pattern="(^[A-D])">
+                    This field should follow pattern "(^[A-D])".
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="coursesAlphaQsApp.avaliacao.faltas" for="field_faltas">Faltas</label>
+            <input type="number" class="form-control" name="faltas" id="field_faltas"
+                    ng-model="vm.avaliacao.faltas"
+                    required />
+            <div ng-show="editForm.faltas.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.faltas.$error.required" data-translate="entity.validation.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.faltas.$error.number" data-translate="entity.validation.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label data-translate="coursesAlphaQsApp.avaliacao.aluno" for="field_aluno">Aluno</label>
+            <select class="form-control" id="field_aluno" multiple name="aluno" ng-model="vm.avaliacao.alunos" ng-options="aluno as aluno.nome for aluno in vm.alunos track by aluno.id" required></select>
+        </div>
+        <div ng-show="editForm.aluno.$invalid">
+            <p class="help-block"
+                ng-show="editForm.aluno.$error.required" data-translate="entity.validation.required">
+                This field is required.
+            </p>
+        </div>
+        <div class="form-group">
+            <label data-translate="coursesAlphaQsApp.avaliacao.disciplina" for="field_disciplina">Disciplina</label>
+            <select class="form-control" id="field_disciplina" name="disciplina" ng-model="vm.avaliacao.disciplina" ng-options="disciplina as disciplina.nome for disciplina in vm.disciplinas track by disciplina.id" required>
+                <option value=""></option>
+            </select>
+        </div>
+        <div ng-show="editForm.disciplina.$invalid">
+            <p class="help-block"
+                ng-show="editForm.disciplina.$error.required" data-translate="entity.validation.required">
+                This field is required.
+            </p>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span data-translate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" ng-disabled="editForm.$invalid || vm.isSaving" class="btn btn-primary">
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span data-translate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

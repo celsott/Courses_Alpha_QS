@@ -12,6 +12,7 @@
                 "disciplina": "Disciplina",
                 "sala": "Sala",
                 "turma": "Turma",
+                "avaliacao": "Avaliacao",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

@@ -73,5 +73,17 @@
         timeToLiveSeconds="3600">
     </cache>
 
+    <cache name="com.qs.courses_alpha.domain.Avaliacao"
+        timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="com.qs.courses_alpha.domain.Avaliacao.alunos"
+        timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="com.qs.courses_alpha.domain.Avaliacao.disciplinas"
+        timeToLiveSeconds="3600">
+    </cache>
+
     <!-- jhipster-needle-ehcache-add-entry -->
 </ehcache>
