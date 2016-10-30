@@ -1,0 +1,27 @@
+
+<div>
+    <h2><span data-translate="coursesAlphaQsApp.sala.detail.title">Sala</span> {{vm.sala.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="dl-horizontal jh-entity-details">
+        <dt><span data-translate="coursesAlphaQsApp.sala.endereco">Endereco</span></dt>
+        <dd>
+            <span>{{vm.sala.endereco}}</span>
+        </dd>
+        <dt><span data-translate="coursesAlphaQsApp.sala.capacidade">Capacidade</span></dt>
+        <dd>
+            <span>{{vm.sala.capacidade}}</span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            ui-sref="{{ vm.previousState }}"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span data-translate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button" ui-sref="sala-detail.edit({id:vm.sala.id})" class="btn btn-primary">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-xs hidden-sm" data-translate="entity.action.edit"> Edit</span>
+    </button>
+</div>

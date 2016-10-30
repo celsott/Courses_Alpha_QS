@@ -1,0 +1,69 @@
+{
+    "fluentMethods": true,
+    "relationships": [],
+    "fields": [
+        {
+            "fieldName": "dre",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required",
+                "minlength",
+                "maxlength"
+            ],
+            "fieldValidateRulesMinlength": "9",
+            "fieldValidateRulesMaxlength": "9"
+        },
+        {
+            "fieldName": "nome",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required",
+                "minlength",
+                "maxlength"
+            ],
+            "fieldValidateRulesMinlength": "2",
+            "fieldValidateRulesMaxlength": "30"
+        },
+        {
+            "fieldName": "sobrenome",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "sexo",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "minlength",
+                "maxlength",
+                "pattern"
+            ],
+            "fieldValidateRulesMinlength": "1",
+            "fieldValidateRulesMaxlength": "1",
+            "fieldValidateRulesPattern": "(^[f,m])"
+        },
+        {
+            "fieldName": "cpf",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required",
+                "minlength",
+                "maxlength",
+                "pattern"
+            ],
+            "fieldValidateRulesMinlength": "11",
+            "fieldValidateRulesMaxlength": "11",
+            "fieldValidateRulesPattern": "(^[0-9]*$)"
+        },
+        {
+            "fieldName": "dataNascimento",
+            "fieldType": "LocalDate",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "changelogDate": "20161030182004",
+    "dto": "no",
+    "service": "no",
+    "entityTableName": "aluno",
+    "pagination": "no"
+}

@@ -37,5 +37,41 @@
            timeToLiveSeconds="3600">
     </cache>
     
+    <cache name="com.qs.courses_alpha.domain.Aluno"
+        timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="com.qs.courses_alpha.domain.Professor"
+        timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="com.qs.courses_alpha.domain.Disciplina"
+        timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="com.qs.courses_alpha.domain.Sala"
+        timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="com.qs.courses_alpha.domain.Turma"
+        timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="com.qs.courses_alpha.domain.Turma.matriculas"
+        timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="com.qs.courses_alpha.domain.Turma.localizadas"
+        timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="com.qs.courses_alpha.domain.Turma.alunos"
+        timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="com.qs.courses_alpha.domain.Turma.salas"
+        timeToLiveSeconds="3600">
+    </cache>
+
     <!-- jhipster-needle-ehcache-add-entry -->
 </ehcache>

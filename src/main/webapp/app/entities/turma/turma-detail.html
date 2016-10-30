@@ -1,0 +1,47 @@
+
+<div>
+    <h2><span data-translate="coursesAlphaQsApp.turma.detail.title">Turma</span> {{vm.turma.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="dl-horizontal jh-entity-details">
+        <dt><span data-translate="coursesAlphaQsApp.turma.codigoturma">Codigoturma</span></dt>
+        <dd>
+            <span>{{vm.turma.codigoturma}}</span>
+        </dd>
+        <dt><span data-translate="coursesAlphaQsApp.turma.horario">Horario</span></dt>
+        <dd>
+            <span>{{vm.turma.horario}}</span>
+        </dd>
+        <dt><span data-translate="coursesAlphaQsApp.turma.disciplina">Disciplina</span></dt>
+        <dd>
+            <a ui-sref="disciplina-detail({id:vm.turma.disciplina.id})">{{vm.turma.disciplina.nome}}</a>
+        </dd>
+        <dt><span data-translate="coursesAlphaQsApp.turma.professor">Professor</span></dt>
+        <dd>
+            <a ui-sref="professor-detail({id:vm.turma.professor.id})">{{vm.turma.professor.nome}}</a>
+        </dd>
+        <dt><span data-translate="coursesAlphaQsApp.turma.aluno">Aluno</span></dt>
+        <dd>
+            <span ng-repeat="aluno in vm.turma.alunos">
+                <a ui-sref="aluno-detail({id: aluno.id})">{{aluno.nome}}</a>{{$last ? '' : ', '}}
+            </span>
+        </dd>
+        <dt><span data-translate="coursesAlphaQsApp.turma.sala">Sala</span></dt>
+        <dd>
+            <span ng-repeat="sala in vm.turma.salas">
+                <a ui-sref="sala-detail({id: sala.id})">{{sala.endereco}}</a>{{$last ? '' : ', '}}
+            </span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            ui-sref="{{ vm.previousState }}"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span data-translate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button" ui-sref="turma-detail.edit({id:vm.turma.id})" class="btn btn-primary">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-xs hidden-sm" data-translate="entity.action.edit"> Edit</span>
+    </button>
+</div>

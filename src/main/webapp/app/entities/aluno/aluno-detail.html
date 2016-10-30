@@ -1,0 +1,43 @@
+
+<div>
+    <h2><span data-translate="coursesAlphaQsApp.aluno.detail.title">Aluno</span> {{vm.aluno.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="dl-horizontal jh-entity-details">
+        <dt><span data-translate="coursesAlphaQsApp.aluno.dre">Dre</span></dt>
+        <dd>
+            <span>{{vm.aluno.dre}}</span>
+        </dd>
+        <dt><span data-translate="coursesAlphaQsApp.aluno.nome">Nome</span></dt>
+        <dd>
+            <span>{{vm.aluno.nome}}</span>
+        </dd>
+        <dt><span data-translate="coursesAlphaQsApp.aluno.sobrenome">Sobrenome</span></dt>
+        <dd>
+            <span>{{vm.aluno.sobrenome}}</span>
+        </dd>
+        <dt><span data-translate="coursesAlphaQsApp.aluno.sexo">Sexo</span></dt>
+        <dd>
+            <span>{{vm.aluno.sexo}}</span>
+        </dd>
+        <dt><span data-translate="coursesAlphaQsApp.aluno.cpf">Cpf</span></dt>
+        <dd>
+            <span>{{vm.aluno.cpf}}</span>
+        </dd>
+        <dt><span data-translate="coursesAlphaQsApp.aluno.dataNascimento">Data Nascimento</span></dt>
+        <dd>
+            <span>{{vm.aluno.dataNascimento | date:'mediumDate'}}</span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            ui-sref="{{ vm.previousState }}"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span data-translate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button" ui-sref="aluno-detail.edit({id:vm.aluno.id})" class="btn btn-primary">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-xs hidden-sm" data-translate="entity.action.edit"> Edit</span>
+    </button>
+</div>

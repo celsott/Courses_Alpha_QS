@@ -1,0 +1,66 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipName": "disciplina",
+            "otherEntityName": "disciplina",
+            "relationshipType": "many-to-one",
+            "relationshipValidateRules": [
+                "required"
+            ],
+            "otherEntityField": "nome"
+        },
+        {
+            "relationshipName": "professor",
+            "otherEntityName": "professor",
+            "relationshipType": "many-to-one",
+            "relationshipValidateRules": [
+                "required"
+            ],
+            "otherEntityField": "nome"
+        },
+        {
+            "relationshipName": "aluno",
+            "otherEntityName": "aluno",
+            "relationshipType": "many-to-many",
+            "relationshipValidateRules": [
+                "required"
+            ],
+            "otherEntityField": "nome",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "turma"
+        },
+        {
+            "relationshipName": "sala",
+            "otherEntityName": "sala",
+            "relationshipType": "many-to-many",
+            "relationshipValidateRules": [
+                "required"
+            ],
+            "otherEntityField": "endereco",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "turma"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "codigoturma",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "horario",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "changelogDate": "20161030195747",
+    "dto": "no",
+    "service": "no",
+    "entityTableName": "turma",
+    "pagination": "no"
+}
