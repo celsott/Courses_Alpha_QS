@@ -1,6 +1,13 @@
 {
     "fluentMethods": true,
-    "relationships": [],
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "avaliacao",
+            "otherEntityName": "avaliacao",
+            "otherEntityRelationshipName": "aluno"
+        }
+    ],
     "fields": [
         {
             "fieldName": "dre",
@@ -10,35 +17,22 @@
                 "minlength",
                 "maxlength"
             ],
-            "fieldValidateRulesMinlength": "9",
-            "fieldValidateRulesMaxlength": "9"
+            "fieldValidateRulesMinlength": 9,
+            "fieldValidateRulesMaxlength": 9
         },
         {
             "fieldName": "nome",
             "fieldType": "String",
             "fieldValidateRules": [
-                "required",
-                "minlength",
-                "maxlength"
-            ],
-            "fieldValidateRulesMinlength": "2",
-            "fieldValidateRulesMaxlength": "30"
+                "required"
+            ]
         },
         {
             "fieldName": "sobrenome",
-            "fieldType": "String"
-        },
-        {
-            "fieldName": "sexo",
             "fieldType": "String",
             "fieldValidateRules": [
-                "minlength",
-                "maxlength",
-                "pattern"
-            ],
-            "fieldValidateRulesMinlength": "1",
-            "fieldValidateRulesMaxlength": "1",
-            "fieldValidateRulesPattern": "(^[f,m])"
+                "required"
+            ]
         },
         {
             "fieldName": "cpf",
@@ -46,12 +40,10 @@
             "fieldValidateRules": [
                 "required",
                 "minlength",
-                "maxlength",
-                "pattern"
+                "maxlength"
             ],
-            "fieldValidateRulesMinlength": "11",
-            "fieldValidateRulesMaxlength": "11",
-            "fieldValidateRulesPattern": "(^[0-9]*$)"
+            "fieldValidateRulesMinlength": 11,
+            "fieldValidateRulesMaxlength": 11
         },
         {
             "fieldName": "dataNascimento",
@@ -59,11 +51,20 @@
             "fieldValidateRules": [
                 "required"
             ]
+        },
+        {
+            "fieldName": "sexo",
+            "fieldType": "Sexo",
+            "fieldValues": "M,F",
+            "fieldValidateRules": [
+                "required"
+            ]
         }
     ],
     "changelogDate": "20161030182004",
-    "dto": "no",
-    "service": "no",
     "entityTableName": "aluno",
-    "pagination": "no"
+    "dto": "mapstruct",
+    "pagination": "no",
+    "service": "serviceImpl",
+    "angularJSSuffix": "mySuffix"
 }

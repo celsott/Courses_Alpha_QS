@@ -1,0 +1,75 @@
+enum Sexo {
+	M, F
+}
+
+entity Aluno {
+    Dre String required minlength(9) maxlength(9),
+    Nome String required,
+    Sobrenome String required,
+    Cpf String required minlength(11) maxlength(11),
+    DataNascimento LocalDate required,
+    Sexo Sexo required
+}
+
+enum Nota {
+	A, B, C, D
+}
+
+entity Avaliacao {
+    Nota Nota,
+    Frequencia Float min(0) max(1)
+}
+
+entity Turma {
+    Horario String required,
+    Periodo Integer required max(4) min(1),
+    Ano Integer required
+}
+
+entity Sala {
+    Numero String required,
+    Capacidade Integer required min(0)
+}
+
+entity Disciplina{
+    Codigo String required,
+    Nome String required,
+    Creditos Integer required min(0),
+    CargaHoraria Integer required min(0),
+    Ementa String required
+}
+
+entity Professor{
+    Nome String required,
+    Sobrenome String required,
+    Cpf String required minlength(11) maxlength(11),
+    DataNascimento LocalDate required,
+    Sexo Sexo required
+}
+
+relationship OneToMany{
+    Professor{turma} to Turma{professor(Nome) required}
+}
+
+relationship OneToMany{
+    Disciplina{turma} to Turma{disciplina(Nome) required}
+}
+
+relationship OneToMany{
+    Sala{turma} to Turma{sala}
+}
+
+relationship OneToMany{
+    Turma{avaliacao} to Avaliacao{turma required}
+}
+
+relationship OneToMany{
+    Aluno{avaliacao} to Avaliacao{aluno(Nome) required}
+}
+
+dto * with mapstruct
+
+// Set service options to all except few 
+service all with serviceImpl
+// Set an angular suffix
+angularSuffix * with mySuffix

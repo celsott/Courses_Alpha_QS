@@ -16,12 +16,12 @@
             "detail": {
                 "title": "Professor"
             },
-            "matricula": "Matricula",
             "nome": "Nome",
             "sobrenome": "Sobrenome",
-            "sexo": "Sexo",
             "cpf": "Cpf",
-            "dataNascimento": "Data Nascimento"
+            "dataNascimento": "Data Nascimento",
+            "sexo": "Sexo",
+            "turma": "Turma"
         }
     }
 }

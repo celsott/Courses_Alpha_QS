@@ -1,10 +1,9 @@
 package com.qs.courses_alpha.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
-import com.qs.courses_alpha.domain.Avaliacao;
-
-import com.qs.courses_alpha.repository.AvaliacaoRepository;
+import com.qs.courses_alpha.service.AvaliacaoService;
 import com.qs.courses_alpha.web.rest.util.HeaderUtil;
+import com.qs.courses_alpha.service.dto.AvaliacaoDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -16,8 +15,10 @@ import javax.inject.Inject;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * REST controller for managing Avaliacao.
@@ -29,23 +30,23 @@ public class AvaliacaoResource {
     private final Logger log = LoggerFactory.getLogger(AvaliacaoResource.class);
         
     @Inject
-    private AvaliacaoRepository avaliacaoRepository;
+    private AvaliacaoService avaliacaoService;
 
     /**
      * POST  /avaliacaos : Create a new avaliacao.
      *
-     * @param avaliacao the avaliacao to create
-     * @return the ResponseEntity with status 201 (Created) and with body the new avaliacao, or with status 400 (Bad Request) if the avaliacao has already an ID
+     * @param avaliacaoDTO the avaliacaoDTO to create
+     * @return the ResponseEntity with status 201 (Created) and with body the new avaliacaoDTO, or with status 400 (Bad Request) if the avaliacao has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/avaliacaos")
     @Timed
-    public ResponseEntity<Avaliacao> createAvaliacao(@Valid @RequestBody Avaliacao avaliacao) throws URISyntaxException {
-        log.debug("REST request to save Avaliacao : {}", avaliacao);
-        if (avaliacao.getId() != null) {
+    public ResponseEntity<AvaliacaoDTO> createAvaliacao(@Valid @RequestBody AvaliacaoDTO avaliacaoDTO) throws URISyntaxException {
+        log.debug("REST request to save Avaliacao : {}", avaliacaoDTO);
+        if (avaliacaoDTO.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("avaliacao", "idexists", "A new avaliacao cannot already have an ID")).body(null);
         }
-        Avaliacao result = avaliacaoRepository.save(avaliacao);
+        AvaliacaoDTO result = avaliacaoService.save(avaliacaoDTO);
         return ResponseEntity.created(new URI("/api/avaliacaos/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert("avaliacao", result.getId().toString()))
             .body(result);
@@ -54,22 +55,22 @@ public class AvaliacaoResource {
     /**
      * PUT  /avaliacaos : Updates an existing avaliacao.
      *
-     * @param avaliacao the avaliacao to update
-     * @return the ResponseEntity with status 200 (OK) and with body the updated avaliacao,
-     * or with status 400 (Bad Request) if the avaliacao is not valid,
-     * or with status 500 (Internal Server Error) if the avaliacao couldnt be updated
+     * @param avaliacaoDTO the avaliacaoDTO to update
+     * @return the ResponseEntity with status 200 (OK) and with body the updated avaliacaoDTO,
+     * or with status 400 (Bad Request) if the avaliacaoDTO is not valid,
+     * or with status 500 (Internal Server Error) if the avaliacaoDTO couldnt be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/avaliacaos")
     @Timed
-    public ResponseEntity<Avaliacao> updateAvaliacao(@Valid @RequestBody Avaliacao avaliacao) throws URISyntaxException {
-        log.debug("REST request to update Avaliacao : {}", avaliacao);
-        if (avaliacao.getId() == null) {
-            return createAvaliacao(avaliacao);
+    public ResponseEntity<AvaliacaoDTO> updateAvaliacao(@Valid @RequestBody AvaliacaoDTO avaliacaoDTO) throws URISyntaxException {
+        log.debug("REST request to update Avaliacao : {}", avaliacaoDTO);
+        if (avaliacaoDTO.getId() == null) {
+            return createAvaliacao(avaliacaoDTO);
         }
-        Avaliacao result = avaliacaoRepository.save(avaliacao);
+        AvaliacaoDTO result = avaliacaoService.save(avaliacaoDTO);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert("avaliacao", avaliacao.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert("avaliacao", avaliacaoDTO.getId().toString()))
             .body(result);
     }
 
@@ -80,24 +81,23 @@ public class AvaliacaoResource {
      */
     @GetMapping("/avaliacaos")
     @Timed
-    public List<Avaliacao> getAllAvaliacaos() {
+    public List<AvaliacaoDTO> getAllAvaliacaos() {
         log.debug("REST request to get all Avaliacaos");
-        List<Avaliacao> avaliacaos = avaliacaoRepository.findAllWithEagerRelationships();
-        return avaliacaos;
+        return avaliacaoService.findAll();
     }
 
     /**
      * GET  /avaliacaos/:id : get the "id" avaliacao.
      *
-     * @param id the id of the avaliacao to retrieve
-     * @return the ResponseEntity with status 200 (OK) and with body the avaliacao, or with status 404 (Not Found)
+     * @param id the id of the avaliacaoDTO to retrieve
+     * @return the ResponseEntity with status 200 (OK) and with body the avaliacaoDTO, or with status 404 (Not Found)
      */
     @GetMapping("/avaliacaos/{id}")
     @Timed
-    public ResponseEntity<Avaliacao> getAvaliacao(@PathVariable Long id) {
+    public ResponseEntity<AvaliacaoDTO> getAvaliacao(@PathVariable Long id) {
         log.debug("REST request to get Avaliacao : {}", id);
-        Avaliacao avaliacao = avaliacaoRepository.findOneWithEagerRelationships(id);
-        return Optional.ofNullable(avaliacao)
+        AvaliacaoDTO avaliacaoDTO = avaliacaoService.findOne(id);
+        return Optional.ofNullable(avaliacaoDTO)
             .map(result -> new ResponseEntity<>(
                 result,
                 HttpStatus.OK))
@@ -107,14 +107,14 @@ public class AvaliacaoResource {
     /**
      * DELETE  /avaliacaos/:id : delete the "id" avaliacao.
      *
-     * @param id the id of the avaliacao to delete
+     * @param id the id of the avaliacaoDTO to delete
      * @return the ResponseEntity with status 200 (OK)
      */
     @DeleteMapping("/avaliacaos/{id}")
     @Timed
     public ResponseEntity<Void> deleteAvaliacao(@PathVariable Long id) {
         log.debug("REST request to delete Avaliacao : {}", id);
-        avaliacaoRepository.delete(id);
+        avaliacaoService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("avaliacao", id.toString())).build();
     }
 

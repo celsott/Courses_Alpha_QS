@@ -4,6 +4,9 @@ import com.qs.courses_alpha.CoursesAlphaQsApp;
 
 import com.qs.courses_alpha.domain.Professor;
 import com.qs.courses_alpha.repository.ProfessorRepository;
+import com.qs.courses_alpha.service.ProfessorService;
+import com.qs.courses_alpha.service.dto.ProfessorDTO;
+import com.qs.courses_alpha.service.mapper.ProfessorMapper;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -31,6 +34,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import com.qs.courses_alpha.domain.enumeration.Sexo;
 /**
  * Test class for the ProfessorResource REST controller.
  *
@@ -40,17 +44,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = CoursesAlphaQsApp.class)
 public class ProfessorResourceIntTest {
 
-    private static final String DEFAULT_MATRICULA = "AAAAA";
-    private static final String UPDATED_MATRICULA = "BBBBB";
+    private static final String DEFAULT_NOME = "AAAAA";
+    private static final String UPDATED_NOME = "BBBBB";
 
-    private static final String DEFAULT_NOME = "AA";
-    private static final String UPDATED_NOME = "BB";
-
-    private static final String DEFAULT_SOBRENOME = "AA";
-    private static final String UPDATED_SOBRENOME = "BB";
-
-    private static final String DEFAULT_SEXO = "A";
-    private static final String UPDATED_SEXO = "B";
+    private static final String DEFAULT_SOBRENOME = "AAAAA";
+    private static final String UPDATED_SOBRENOME = "BBBBB";
 
     private static final String DEFAULT_CPF = "AAAAAAAAAAA";
     private static final String UPDATED_CPF = "BBBBBBBBBBB";
@@ -58,8 +56,17 @@ public class ProfessorResourceIntTest {
     private static final LocalDate DEFAULT_DATA_NASCIMENTO = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_DATA_NASCIMENTO = LocalDate.now(ZoneId.systemDefault());
 
+    private static final Sexo DEFAULT_SEXO = Sexo.M;
+    private static final Sexo UPDATED_SEXO = Sexo.F;
+
     @Inject
     private ProfessorRepository professorRepository;
+
+    @Inject
+    private ProfessorMapper professorMapper;
+
+    @Inject
+    private ProfessorService professorService;
 
     @Inject
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
@@ -78,7 +85,7 @@ public class ProfessorResourceIntTest {
     public void setup() {
         MockitoAnnotations.initMocks(this);
         ProfessorResource professorResource = new ProfessorResource();
-        ReflectionTestUtils.setField(professorResource, "professorRepository", professorRepository);
+        ReflectionTestUtils.setField(professorResource, "professorService", professorService);
         this.restProfessorMockMvc = MockMvcBuilders.standaloneSetup(professorResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setMessageConverters(jacksonMessageConverter).build();
@@ -92,12 +99,11 @@ public class ProfessorResourceIntTest {
      */
     public static Professor createEntity(EntityManager em) {
         Professor professor = new Professor()
-                .matricula(DEFAULT_MATRICULA)
                 .nome(DEFAULT_NOME)
                 .sobrenome(DEFAULT_SOBRENOME)
-                .sexo(DEFAULT_SEXO)
                 .cpf(DEFAULT_CPF)
-                .dataNascimento(DEFAULT_DATA_NASCIMENTO);
+                .dataNascimento(DEFAULT_DATA_NASCIMENTO)
+                .sexo(DEFAULT_SEXO);
         return professor;
     }
 
@@ -112,40 +118,22 @@ public class ProfessorResourceIntTest {
         int databaseSizeBeforeCreate = professorRepository.findAll().size();
 
         // Create the Professor
+        ProfessorDTO professorDTO = professorMapper.professorToProfessorDTO(professor);
 
         restProfessorMockMvc.perform(post("/api/professors")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(professor)))
+                .content(TestUtil.convertObjectToJsonBytes(professorDTO)))
                 .andExpect(status().isCreated());
 
         // Validate the Professor in the database
         List<Professor> professors = professorRepository.findAll();
         assertThat(professors).hasSize(databaseSizeBeforeCreate + 1);
         Professor testProfessor = professors.get(professors.size() - 1);
-        assertThat(testProfessor.getMatricula()).isEqualTo(DEFAULT_MATRICULA);
         assertThat(testProfessor.getNome()).isEqualTo(DEFAULT_NOME);
         assertThat(testProfessor.getSobrenome()).isEqualTo(DEFAULT_SOBRENOME);
-        assertThat(testProfessor.getSexo()).isEqualTo(DEFAULT_SEXO);
         assertThat(testProfessor.getCpf()).isEqualTo(DEFAULT_CPF);
         assertThat(testProfessor.getDataNascimento()).isEqualTo(DEFAULT_DATA_NASCIMENTO);
-    }
-
-    @Test
-    @Transactional
-    public void checkMatriculaIsRequired() throws Exception {
-        int databaseSizeBeforeTest = professorRepository.findAll().size();
-        // set the field null
-        professor.setMatricula(null);
-
-        // Create the Professor, which fails.
-
-        restProfessorMockMvc.perform(post("/api/professors")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(professor)))
-                .andExpect(status().isBadRequest());
-
-        List<Professor> professors = professorRepository.findAll();
-        assertThat(professors).hasSize(databaseSizeBeforeTest);
+        assertThat(testProfessor.getSexo()).isEqualTo(DEFAULT_SEXO);
     }
 
     @Test
@@ -156,10 +144,11 @@ public class ProfessorResourceIntTest {
         professor.setNome(null);
 
         // Create the Professor, which fails.
+        ProfessorDTO professorDTO = professorMapper.professorToProfessorDTO(professor);
 
         restProfessorMockMvc.perform(post("/api/professors")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(professor)))
+                .content(TestUtil.convertObjectToJsonBytes(professorDTO)))
                 .andExpect(status().isBadRequest());
 
         List<Professor> professors = professorRepository.findAll();
@@ -174,10 +163,11 @@ public class ProfessorResourceIntTest {
         professor.setSobrenome(null);
 
         // Create the Professor, which fails.
+        ProfessorDTO professorDTO = professorMapper.professorToProfessorDTO(professor);
 
         restProfessorMockMvc.perform(post("/api/professors")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(professor)))
+                .content(TestUtil.convertObjectToJsonBytes(professorDTO)))
                 .andExpect(status().isBadRequest());
 
         List<Professor> professors = professorRepository.findAll();
@@ -192,10 +182,11 @@ public class ProfessorResourceIntTest {
         professor.setCpf(null);
 
         // Create the Professor, which fails.
+        ProfessorDTO professorDTO = professorMapper.professorToProfessorDTO(professor);
 
         restProfessorMockMvc.perform(post("/api/professors")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(professor)))
+                .content(TestUtil.convertObjectToJsonBytes(professorDTO)))
                 .andExpect(status().isBadRequest());
 
         List<Professor> professors = professorRepository.findAll();
@@ -210,10 +201,30 @@ public class ProfessorResourceIntTest {
         professor.setDataNascimento(null);
 
         // Create the Professor, which fails.
+        ProfessorDTO professorDTO = professorMapper.professorToProfessorDTO(professor);
 
         restProfessorMockMvc.perform(post("/api/professors")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(professor)))
+                .content(TestUtil.convertObjectToJsonBytes(professorDTO)))
+                .andExpect(status().isBadRequest());
+
+        List<Professor> professors = professorRepository.findAll();
+        assertThat(professors).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkSexoIsRequired() throws Exception {
+        int databaseSizeBeforeTest = professorRepository.findAll().size();
+        // set the field null
+        professor.setSexo(null);
+
+        // Create the Professor, which fails.
+        ProfessorDTO professorDTO = professorMapper.professorToProfessorDTO(professor);
+
+        restProfessorMockMvc.perform(post("/api/professors")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(professorDTO)))
                 .andExpect(status().isBadRequest());
 
         List<Professor> professors = professorRepository.findAll();
@@ -231,12 +242,11 @@ public class ProfessorResourceIntTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(jsonPath("$.[*].id").value(hasItem(professor.getId().intValue())))
-                .andExpect(jsonPath("$.[*].matricula").value(hasItem(DEFAULT_MATRICULA.toString())))
                 .andExpect(jsonPath("$.[*].nome").value(hasItem(DEFAULT_NOME.toString())))
                 .andExpect(jsonPath("$.[*].sobrenome").value(hasItem(DEFAULT_SOBRENOME.toString())))
-                .andExpect(jsonPath("$.[*].sexo").value(hasItem(DEFAULT_SEXO.toString())))
                 .andExpect(jsonPath("$.[*].cpf").value(hasItem(DEFAULT_CPF.toString())))
-                .andExpect(jsonPath("$.[*].dataNascimento").value(hasItem(DEFAULT_DATA_NASCIMENTO.toString())));
+                .andExpect(jsonPath("$.[*].dataNascimento").value(hasItem(DEFAULT_DATA_NASCIMENTO.toString())))
+                .andExpect(jsonPath("$.[*].sexo").value(hasItem(DEFAULT_SEXO.toString())));
     }
 
     @Test
@@ -250,12 +260,11 @@ public class ProfessorResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(professor.getId().intValue()))
-            .andExpect(jsonPath("$.matricula").value(DEFAULT_MATRICULA.toString()))
             .andExpect(jsonPath("$.nome").value(DEFAULT_NOME.toString()))
             .andExpect(jsonPath("$.sobrenome").value(DEFAULT_SOBRENOME.toString()))
-            .andExpect(jsonPath("$.sexo").value(DEFAULT_SEXO.toString()))
             .andExpect(jsonPath("$.cpf").value(DEFAULT_CPF.toString()))
-            .andExpect(jsonPath("$.dataNascimento").value(DEFAULT_DATA_NASCIMENTO.toString()));
+            .andExpect(jsonPath("$.dataNascimento").value(DEFAULT_DATA_NASCIMENTO.toString()))
+            .andExpect(jsonPath("$.sexo").value(DEFAULT_SEXO.toString()));
     }
 
     @Test
@@ -276,28 +285,27 @@ public class ProfessorResourceIntTest {
         // Update the professor
         Professor updatedProfessor = professorRepository.findOne(professor.getId());
         updatedProfessor
-                .matricula(UPDATED_MATRICULA)
                 .nome(UPDATED_NOME)
                 .sobrenome(UPDATED_SOBRENOME)
-                .sexo(UPDATED_SEXO)
                 .cpf(UPDATED_CPF)
-                .dataNascimento(UPDATED_DATA_NASCIMENTO);
+                .dataNascimento(UPDATED_DATA_NASCIMENTO)
+                .sexo(UPDATED_SEXO);
+        ProfessorDTO professorDTO = professorMapper.professorToProfessorDTO(updatedProfessor);
 
         restProfessorMockMvc.perform(put("/api/professors")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(updatedProfessor)))
+                .content(TestUtil.convertObjectToJsonBytes(professorDTO)))
                 .andExpect(status().isOk());
 
         // Validate the Professor in the database
         List<Professor> professors = professorRepository.findAll();
         assertThat(professors).hasSize(databaseSizeBeforeUpdate);
         Professor testProfessor = professors.get(professors.size() - 1);
-        assertThat(testProfessor.getMatricula()).isEqualTo(UPDATED_MATRICULA);
         assertThat(testProfessor.getNome()).isEqualTo(UPDATED_NOME);
         assertThat(testProfessor.getSobrenome()).isEqualTo(UPDATED_SOBRENOME);
-        assertThat(testProfessor.getSexo()).isEqualTo(UPDATED_SEXO);
         assertThat(testProfessor.getCpf()).isEqualTo(UPDATED_CPF);
         assertThat(testProfessor.getDataNascimento()).isEqualTo(UPDATED_DATA_NASCIMENTO);
+        assertThat(testProfessor.getSexo()).isEqualTo(UPDATED_SEXO);
     }
 
     @Test

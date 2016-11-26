@@ -17,10 +17,9 @@
                 "title": "Avaliacao"
             },
             "nota": "Nota",
-            "faltas": "Faltas",
-            "aluno": "Aluno",
-            "disciplina": "Disciplina",
-            "disciplina": "Disciplina"
+            "frequencia": "Frequencia",
+            "turma": "Turma",
+            "aluno": "Aluno"
         }
     }
 }

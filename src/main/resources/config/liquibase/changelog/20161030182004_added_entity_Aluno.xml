@@ -25,16 +25,12 @@
                 <constraints nullable="false" />
             </column>
             
-            <column name="nome" type="varchar(30)">
+            <column name="nome" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
             
             <column name="sobrenome" type="varchar(255)">
-                <constraints nullable="true" />
-            </column>
-            
-            <column name="sexo" type="varchar(1)">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
             
             <column name="cpf" type="varchar(11)">
@@ -42,6 +38,10 @@
             </column>
             
             <column name="data_nascimento" type="date">
+                <constraints nullable="false" />
+            </column>
+            
+            <column name="sexo" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
             

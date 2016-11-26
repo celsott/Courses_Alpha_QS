@@ -1,5 +1,6 @@
 package com.qs.courses_alpha.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -7,7 +8,11 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Objects;
+
+import com.qs.courses_alpha.domain.enumeration.Sexo;
 
 /**
  * A Aluno.
@@ -29,27 +34,31 @@ public class Aluno implements Serializable {
     private String dre;
 
     @NotNull
-    @Size(min = 2, max = 30)
-    @Column(name = "nome", length = 30, nullable = false)
+    @Column(name = "nome", nullable = false)
     private String nome;
 
-    @Column(name = "sobrenome")
+    @NotNull
+    @Column(name = "sobrenome", nullable = false)
     private String sobrenome;
-
-    @Size(min = 1, max = 1)
-    @Pattern(regexp = "(^[f,m])")
-    @Column(name = "sexo", length = 1)
-    private String sexo;
 
     @NotNull
     @Size(min = 11, max = 11)
-    @Pattern(regexp = "(^[0-9]*$)")
     @Column(name = "cpf", length = 11, nullable = false)
     private String cpf;
 
     @NotNull
     @Column(name = "data_nascimento", nullable = false)
     private LocalDate dataNascimento;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "sexo", nullable = false)
+    private Sexo sexo;
+
+    @OneToMany(mappedBy = "aluno")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Avaliacao> avaliacaos = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -98,19 +107,6 @@ public class Aluno implements Serializable {
         this.sobrenome = sobrenome;
     }
 
-    public String getSexo() {
-        return sexo;
-    }
-
-    public Aluno sexo(String sexo) {
-        this.sexo = sexo;
-        return this;
-    }
-
-    public void setSexo(String sexo) {
-        this.sexo = sexo;
-    }
-
     public String getCpf() {
         return cpf;
     }
@@ -135,6 +131,44 @@ public class Aluno implements Serializable {
 
     public void setDataNascimento(LocalDate dataNascimento) {
         this.dataNascimento = dataNascimento;
+    }
+
+    public Sexo getSexo() {
+        return sexo;
+    }
+
+    public Aluno sexo(Sexo sexo) {
+        this.sexo = sexo;
+        return this;
+    }
+
+    public void setSexo(Sexo sexo) {
+        this.sexo = sexo;
+    }
+
+    public Set<Avaliacao> getAvaliacaos() {
+        return avaliacaos;
+    }
+
+    public Aluno avaliacaos(Set<Avaliacao> avaliacaos) {
+        this.avaliacaos = avaliacaos;
+        return this;
+    }
+
+    public Aluno addAvaliacao(Avaliacao avaliacao) {
+        avaliacaos.add(avaliacao);
+        avaliacao.setAluno(this);
+        return this;
+    }
+
+    public Aluno removeAvaliacao(Avaliacao avaliacao) {
+        avaliacaos.remove(avaliacao);
+        avaliacao.setAluno(null);
+        return this;
+    }
+
+    public void setAvaliacaos(Set<Avaliacao> avaliacaos) {
+        this.avaliacaos = avaliacaos;
     }
 
     @Override
@@ -164,9 +198,9 @@ public class Aluno implements Serializable {
             ", dre='" + dre + "'" +
             ", nome='" + nome + "'" +
             ", sobrenome='" + sobrenome + "'" +
-            ", sexo='" + sexo + "'" +
             ", cpf='" + cpf + "'" +
             ", dataNascimento='" + dataNascimento + "'" +
+            ", sexo='" + sexo + "'" +
             '}';
     }
 }

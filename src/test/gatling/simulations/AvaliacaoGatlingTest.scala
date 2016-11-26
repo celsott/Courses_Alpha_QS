@@ -67,7 +67,7 @@ class AvaliacaoGatlingTest extends Simulation {
             .exec(http("Create new avaliacao")
             .post("/api/avaliacaos")
             .headers(headers_http_authenticated)
-            .body(StringBody("""{"id":null, "nota":"SAMPLE_TEXT", "faltas":"0"}""")).asJSON
+            .body(StringBody("""{"id":null, "nota":null, "frequencia":null}""")).asJSON
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_avaliacao_url"))).exitHereIfFailed
             .pause(10)

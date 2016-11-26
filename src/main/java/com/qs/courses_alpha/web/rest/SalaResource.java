@@ -1,10 +1,9 @@
 package com.qs.courses_alpha.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
-import com.qs.courses_alpha.domain.Sala;
-
-import com.qs.courses_alpha.repository.SalaRepository;
+import com.qs.courses_alpha.service.SalaService;
 import com.qs.courses_alpha.web.rest.util.HeaderUtil;
+import com.qs.courses_alpha.service.dto.SalaDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -16,8 +15,10 @@ import javax.inject.Inject;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * REST controller for managing Sala.
@@ -29,23 +30,23 @@ public class SalaResource {
     private final Logger log = LoggerFactory.getLogger(SalaResource.class);
         
     @Inject
-    private SalaRepository salaRepository;
+    private SalaService salaService;
 
     /**
      * POST  /salas : Create a new sala.
      *
-     * @param sala the sala to create
-     * @return the ResponseEntity with status 201 (Created) and with body the new sala, or with status 400 (Bad Request) if the sala has already an ID
+     * @param salaDTO the salaDTO to create
+     * @return the ResponseEntity with status 201 (Created) and with body the new salaDTO, or with status 400 (Bad Request) if the sala has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/salas")
     @Timed
-    public ResponseEntity<Sala> createSala(@Valid @RequestBody Sala sala) throws URISyntaxException {
-        log.debug("REST request to save Sala : {}", sala);
-        if (sala.getId() != null) {
+    public ResponseEntity<SalaDTO> createSala(@Valid @RequestBody SalaDTO salaDTO) throws URISyntaxException {
+        log.debug("REST request to save Sala : {}", salaDTO);
+        if (salaDTO.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("sala", "idexists", "A new sala cannot already have an ID")).body(null);
         }
-        Sala result = salaRepository.save(sala);
+        SalaDTO result = salaService.save(salaDTO);
         return ResponseEntity.created(new URI("/api/salas/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert("sala", result.getId().toString()))
             .body(result);
@@ -54,22 +55,22 @@ public class SalaResource {
     /**
      * PUT  /salas : Updates an existing sala.
      *
-     * @param sala the sala to update
-     * @return the ResponseEntity with status 200 (OK) and with body the updated sala,
-     * or with status 400 (Bad Request) if the sala is not valid,
-     * or with status 500 (Internal Server Error) if the sala couldnt be updated
+     * @param salaDTO the salaDTO to update
+     * @return the ResponseEntity with status 200 (OK) and with body the updated salaDTO,
+     * or with status 400 (Bad Request) if the salaDTO is not valid,
+     * or with status 500 (Internal Server Error) if the salaDTO couldnt be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/salas")
     @Timed
-    public ResponseEntity<Sala> updateSala(@Valid @RequestBody Sala sala) throws URISyntaxException {
-        log.debug("REST request to update Sala : {}", sala);
-        if (sala.getId() == null) {
-            return createSala(sala);
+    public ResponseEntity<SalaDTO> updateSala(@Valid @RequestBody SalaDTO salaDTO) throws URISyntaxException {
+        log.debug("REST request to update Sala : {}", salaDTO);
+        if (salaDTO.getId() == null) {
+            return createSala(salaDTO);
         }
-        Sala result = salaRepository.save(sala);
+        SalaDTO result = salaService.save(salaDTO);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert("sala", sala.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert("sala", salaDTO.getId().toString()))
             .body(result);
     }
 
@@ -80,24 +81,23 @@ public class SalaResource {
      */
     @GetMapping("/salas")
     @Timed
-    public List<Sala> getAllSalas() {
+    public List<SalaDTO> getAllSalas() {
         log.debug("REST request to get all Salas");
-        List<Sala> salas = salaRepository.findAll();
-        return salas;
+        return salaService.findAll();
     }
 
     /**
      * GET  /salas/:id : get the "id" sala.
      *
-     * @param id the id of the sala to retrieve
-     * @return the ResponseEntity with status 200 (OK) and with body the sala, or with status 404 (Not Found)
+     * @param id the id of the salaDTO to retrieve
+     * @return the ResponseEntity with status 200 (OK) and with body the salaDTO, or with status 404 (Not Found)
      */
     @GetMapping("/salas/{id}")
     @Timed
-    public ResponseEntity<Sala> getSala(@PathVariable Long id) {
+    public ResponseEntity<SalaDTO> getSala(@PathVariable Long id) {
         log.debug("REST request to get Sala : {}", id);
-        Sala sala = salaRepository.findOne(id);
-        return Optional.ofNullable(sala)
+        SalaDTO salaDTO = salaService.findOne(id);
+        return Optional.ofNullable(salaDTO)
             .map(result -> new ResponseEntity<>(
                 result,
                 HttpStatus.OK))
@@ -107,14 +107,14 @@ public class SalaResource {
     /**
      * DELETE  /salas/:id : delete the "id" sala.
      *
-     * @param id the id of the sala to delete
+     * @param id the id of the salaDTO to delete
      * @return the ResponseEntity with status 200 (OK)
      */
     @DeleteMapping("/salas/{id}")
     @Timed
     public ResponseEntity<Void> deleteSala(@PathVariable Long id) {
         log.debug("REST request to delete Sala : {}", id);
-        salaRepository.delete(id);
+        salaService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("sala", id.toString())).build();
     }
 

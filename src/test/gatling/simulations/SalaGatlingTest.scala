@@ -67,7 +67,7 @@ class SalaGatlingTest extends Simulation {
             .exec(http("Create new sala")
             .post("/api/salas")
             .headers(headers_http_authenticated)
-            .body(StringBody("""{"id":null, "endereco":"SAMPLE_TEXT", "capacidade":"0"}""")).asJSON
+            .body(StringBody("""{"id":null, "numero":"SAMPLE_TEXT", "capacidade":"0"}""")).asJSON
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_sala_url"))).exitHereIfFailed
             .pause(10)

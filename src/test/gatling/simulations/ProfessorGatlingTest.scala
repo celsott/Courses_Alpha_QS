@@ -67,7 +67,7 @@ class ProfessorGatlingTest extends Simulation {
             .exec(http("Create new professor")
             .post("/api/professors")
             .headers(headers_http_authenticated)
-            .body(StringBody("""{"id":null, "matricula":"SAMPLE_TEXT", "nome":"SAMPLE_TEXT", "sobrenome":"SAMPLE_TEXT", "sexo":"SAMPLE_TEXT", "cpf":"SAMPLE_TEXT", "dataNascimento":"2020-01-01T00:00:00.000Z"}""")).asJSON
+            .body(StringBody("""{"id":null, "nome":"SAMPLE_TEXT", "sobrenome":"SAMPLE_TEXT", "cpf":"SAMPLE_TEXT", "dataNascimento":"2020-01-01T00:00:00.000Z", "sexo":null}""")).asJSON
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_professor_url"))).exitHereIfFailed
             .pause(10)

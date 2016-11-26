@@ -2,65 +2,63 @@
     "fluentMethods": true,
     "relationships": [
         {
-            "relationshipName": "disciplina",
-            "otherEntityName": "disciplina",
-            "relationshipType": "many-to-one",
-            "relationshipValidateRules": [
-                "required"
-            ],
-            "otherEntityField": "nome"
+            "relationshipType": "one-to-many",
+            "relationshipName": "avaliacao",
+            "otherEntityName": "avaliacao",
+            "otherEntityRelationshipName": "turma"
         },
         {
+            "relationshipType": "many-to-one",
+            "relationshipValidateRules": "required",
             "relationshipName": "professor",
             "otherEntityName": "professor",
-            "relationshipType": "many-to-one",
-            "relationshipValidateRules": [
-                "required"
-            ],
             "otherEntityField": "nome"
         },
         {
-            "relationshipName": "aluno",
-            "otherEntityName": "aluno",
-            "relationshipType": "many-to-many",
-            "relationshipValidateRules": [
-                "required"
-            ],
-            "otherEntityField": "nome",
-            "ownerSide": true,
-            "otherEntityRelationshipName": "turma"
+            "relationshipType": "many-to-one",
+            "relationshipValidateRules": "required",
+            "relationshipName": "disciplina",
+            "otherEntityName": "disciplina",
+            "otherEntityField": "nome"
         },
         {
+            "relationshipType": "many-to-one",
             "relationshipName": "sala",
             "otherEntityName": "sala",
-            "relationshipType": "many-to-many",
-            "relationshipValidateRules": [
-                "required"
-            ],
-            "otherEntityField": "endereco",
-            "ownerSide": true,
-            "otherEntityRelationshipName": "turma"
+            "otherEntityField": "id"
         }
     ],
     "fields": [
-        {
-            "fieldName": "codigoturma",
-            "fieldType": "String",
-            "fieldValidateRules": [
-                "required"
-            ]
-        },
         {
             "fieldName": "horario",
             "fieldType": "String",
             "fieldValidateRules": [
                 "required"
             ]
+        },
+        {
+            "fieldName": "periodo",
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "required",
+                "max",
+                "min"
+            ],
+            "fieldValidateRulesMax": 4,
+            "fieldValidateRulesMin": 1
+        },
+        {
+            "fieldName": "ano",
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "required"
+            ]
         }
     ],
     "changelogDate": "20161030195747",
-    "dto": "no",
-    "service": "no",
     "entityTableName": "turma",
-    "pagination": "no"
+    "dto": "mapstruct",
+    "pagination": "no",
+    "service": "serviceImpl",
+    "angularJSSuffix": "mySuffix"
 }

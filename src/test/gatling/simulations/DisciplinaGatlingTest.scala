@@ -67,7 +67,7 @@ class DisciplinaGatlingTest extends Simulation {
             .exec(http("Create new disciplina")
             .post("/api/disciplinas")
             .headers(headers_http_authenticated)
-            .body(StringBody("""{"id":null, "codigo":"SAMPLE_TEXT", "creditos":"0", "cargahoraria":"0", "ementa":"SAMPLE_TEXT", "nome":"SAMPLE_TEXT"}""")).asJSON
+            .body(StringBody("""{"id":null, "codigo":"SAMPLE_TEXT", "nome":"SAMPLE_TEXT", "creditos":"0", "cargaHoraria":"0", "ementa":"SAMPLE_TEXT"}""")).asJSON
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_disciplina_url"))).exitHereIfFailed
             .pause(10)

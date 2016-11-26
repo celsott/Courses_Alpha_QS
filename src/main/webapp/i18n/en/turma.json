@@ -16,11 +16,12 @@
             "detail": {
                 "title": "Turma"
             },
-            "codigoturma": "Codigoturma",
             "horario": "Horario",
-            "disciplina": "Disciplina",
+            "periodo": "Periodo",
+            "ano": "Ano",
+            "avaliacao": "Avaliacao",
             "professor": "Professor",
-            "aluno": "Aluno",
+            "disciplina": "Disciplina",
             "sala": "Sala"
         }
     }

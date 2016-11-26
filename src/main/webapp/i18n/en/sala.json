@@ -16,8 +16,9 @@
             "detail": {
                 "title": "Sala"
             },
-            "endereco": "Endereco",
-            "capacidade": "Capacidade"
+            "numero": "Numero",
+            "capacidade": "Capacidade",
+            "turma": "Turma"
         }
     }
 }

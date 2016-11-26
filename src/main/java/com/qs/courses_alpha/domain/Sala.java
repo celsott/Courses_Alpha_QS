@@ -1,11 +1,14 @@
 package com.qs.courses_alpha.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Objects;
 
 /**
@@ -23,12 +26,18 @@ public class Sala implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "endereco", nullable = false)
-    private String endereco;
+    @Column(name = "numero", nullable = false)
+    private String numero;
 
     @NotNull
+    @Min(value = 0)
     @Column(name = "capacidade", nullable = false)
     private Integer capacidade;
+
+    @OneToMany(mappedBy = "sala")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Turma> turmas = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -38,17 +47,17 @@ public class Sala implements Serializable {
         this.id = id;
     }
 
-    public String getEndereco() {
-        return endereco;
+    public String getNumero() {
+        return numero;
     }
 
-    public Sala endereco(String endereco) {
-        this.endereco = endereco;
+    public Sala numero(String numero) {
+        this.numero = numero;
         return this;
     }
 
-    public void setEndereco(String endereco) {
-        this.endereco = endereco;
+    public void setNumero(String numero) {
+        this.numero = numero;
     }
 
     public Integer getCapacidade() {
@@ -62,6 +71,31 @@ public class Sala implements Serializable {
 
     public void setCapacidade(Integer capacidade) {
         this.capacidade = capacidade;
+    }
+
+    public Set<Turma> getTurmas() {
+        return turmas;
+    }
+
+    public Sala turmas(Set<Turma> turmas) {
+        this.turmas = turmas;
+        return this;
+    }
+
+    public Sala addTurma(Turma turma) {
+        turmas.add(turma);
+        turma.setSala(this);
+        return this;
+    }
+
+    public Sala removeTurma(Turma turma) {
+        turmas.remove(turma);
+        turma.setSala(null);
+        return this;
+    }
+
+    public void setTurmas(Set<Turma> turmas) {
+        this.turmas = turmas;
     }
 
     @Override
@@ -88,7 +122,7 @@ public class Sala implements Serializable {
     public String toString() {
         return "Sala{" +
             "id=" + id +
-            ", endereco='" + endereco + "'" +
+            ", numero='" + numero + "'" +
             ", capacidade='" + capacidade + "'" +
             '}';
     }

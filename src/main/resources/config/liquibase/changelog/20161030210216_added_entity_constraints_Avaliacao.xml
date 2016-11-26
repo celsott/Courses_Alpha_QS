@@ -8,22 +8,17 @@
     -->
     <changeSet id="20161030210216-2" author="jhipster">
         
-        <addForeignKeyConstraint baseColumnNames="avaliacaos_id"
-                                 baseTableName="avaliacao_aluno"
-                                 constraintName="fk_avaliacao_aluno_avaliacaos_id"
+        <addForeignKeyConstraint baseColumnNames="turma_id"
+                                 baseTableName="avaliacao"
+                                 constraintName="fk_avaliacao_turma_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="avaliacao"/>
-        <addForeignKeyConstraint baseColumnNames="alunos_id"
-                                 baseTableName="avaliacao_aluno"
-                                 constraintName="fk_avaliacao_aluno_alunos_id"
+                                 referencedTableName="turma"/>
+
+        <addForeignKeyConstraint baseColumnNames="aluno_id"
+                                 baseTableName="avaliacao"
+                                 constraintName="fk_avaliacao_aluno_id"
                                  referencedColumnNames="id"
                                  referencedTableName="aluno"/>
-        
-        <addForeignKeyConstraint baseColumnNames="disciplina_id"
-                                 baseTableName="avaliacao"
-                                 constraintName="fk_avaliacao_disciplina_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="disciplina"/>
 
     </changeSet>
 </databaseChangeLog>

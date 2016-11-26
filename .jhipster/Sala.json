@@ -1,9 +1,16 @@
 {
     "fluentMethods": true,
-    "relationships": [],
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "turma",
+            "otherEntityName": "turma",
+            "otherEntityRelationshipName": "sala"
+        }
+    ],
     "fields": [
         {
-            "fieldName": "endereco",
+            "fieldName": "numero",
             "fieldType": "String",
             "fieldValidateRules": [
                 "required"
@@ -13,13 +20,16 @@
             "fieldName": "capacidade",
             "fieldType": "Integer",
             "fieldValidateRules": [
-                "required"
-            ]
+                "required",
+                "min"
+            ],
+            "fieldValidateRulesMin": 0
         }
     ],
     "changelogDate": "20161030194447",
-    "dto": "no",
-    "service": "no",
     "entityTableName": "sala",
-    "pagination": "no"
+    "dto": "mapstruct",
+    "pagination": "no",
+    "service": "serviceImpl",
+    "angularJSSuffix": "mySuffix"
 }

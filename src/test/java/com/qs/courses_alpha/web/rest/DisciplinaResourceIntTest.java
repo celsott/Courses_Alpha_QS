@@ -4,6 +4,9 @@ import com.qs.courses_alpha.CoursesAlphaQsApp;
 
 import com.qs.courses_alpha.domain.Disciplina;
 import com.qs.courses_alpha.repository.DisciplinaRepository;
+import com.qs.courses_alpha.service.DisciplinaService;
+import com.qs.courses_alpha.service.dto.DisciplinaDTO;
+import com.qs.courses_alpha.service.mapper.DisciplinaMapper;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -41,20 +44,26 @@ public class DisciplinaResourceIntTest {
     private static final String DEFAULT_CODIGO = "AAAAA";
     private static final String UPDATED_CODIGO = "BBBBB";
 
-    private static final Integer DEFAULT_CREDITOS = 1;
-    private static final Integer UPDATED_CREDITOS = 2;
-
-    private static final Integer DEFAULT_CARGAHORARIA = 1;
-    private static final Integer UPDATED_CARGAHORARIA = 2;
-
-    private static final String DEFAULT_EMENTA = "AAAA";
-    private static final String UPDATED_EMENTA = "BBBB";
-
     private static final String DEFAULT_NOME = "AAAAA";
     private static final String UPDATED_NOME = "BBBBB";
 
+    private static final Integer DEFAULT_CREDITOS = 0;
+    private static final Integer UPDATED_CREDITOS = 1;
+
+    private static final Integer DEFAULT_CARGA_HORARIA = 0;
+    private static final Integer UPDATED_CARGA_HORARIA = 1;
+
+    private static final String DEFAULT_EMENTA = "AAAAA";
+    private static final String UPDATED_EMENTA = "BBBBB";
+
     @Inject
     private DisciplinaRepository disciplinaRepository;
+
+    @Inject
+    private DisciplinaMapper disciplinaMapper;
+
+    @Inject
+    private DisciplinaService disciplinaService;
 
     @Inject
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
@@ -73,7 +82,7 @@ public class DisciplinaResourceIntTest {
     public void setup() {
         MockitoAnnotations.initMocks(this);
         DisciplinaResource disciplinaResource = new DisciplinaResource();
-        ReflectionTestUtils.setField(disciplinaResource, "disciplinaRepository", disciplinaRepository);
+        ReflectionTestUtils.setField(disciplinaResource, "disciplinaService", disciplinaService);
         this.restDisciplinaMockMvc = MockMvcBuilders.standaloneSetup(disciplinaResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setMessageConverters(jacksonMessageConverter).build();
@@ -88,10 +97,10 @@ public class DisciplinaResourceIntTest {
     public static Disciplina createEntity(EntityManager em) {
         Disciplina disciplina = new Disciplina()
                 .codigo(DEFAULT_CODIGO)
+                .nome(DEFAULT_NOME)
                 .creditos(DEFAULT_CREDITOS)
-                .cargahoraria(DEFAULT_CARGAHORARIA)
-                .ementa(DEFAULT_EMENTA)
-                .nome(DEFAULT_NOME);
+                .cargaHoraria(DEFAULT_CARGA_HORARIA)
+                .ementa(DEFAULT_EMENTA);
         return disciplina;
     }
 
@@ -106,10 +115,11 @@ public class DisciplinaResourceIntTest {
         int databaseSizeBeforeCreate = disciplinaRepository.findAll().size();
 
         // Create the Disciplina
+        DisciplinaDTO disciplinaDTO = disciplinaMapper.disciplinaToDisciplinaDTO(disciplina);
 
         restDisciplinaMockMvc.perform(post("/api/disciplinas")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(disciplina)))
+                .content(TestUtil.convertObjectToJsonBytes(disciplinaDTO)))
                 .andExpect(status().isCreated());
 
         // Validate the Disciplina in the database
@@ -117,10 +127,10 @@ public class DisciplinaResourceIntTest {
         assertThat(disciplinas).hasSize(databaseSizeBeforeCreate + 1);
         Disciplina testDisciplina = disciplinas.get(disciplinas.size() - 1);
         assertThat(testDisciplina.getCodigo()).isEqualTo(DEFAULT_CODIGO);
-        assertThat(testDisciplina.getCreditos()).isEqualTo(DEFAULT_CREDITOS);
-        assertThat(testDisciplina.getCargahoraria()).isEqualTo(DEFAULT_CARGAHORARIA);
-        assertThat(testDisciplina.getEmenta()).isEqualTo(DEFAULT_EMENTA);
         assertThat(testDisciplina.getNome()).isEqualTo(DEFAULT_NOME);
+        assertThat(testDisciplina.getCreditos()).isEqualTo(DEFAULT_CREDITOS);
+        assertThat(testDisciplina.getCargaHoraria()).isEqualTo(DEFAULT_CARGA_HORARIA);
+        assertThat(testDisciplina.getEmenta()).isEqualTo(DEFAULT_EMENTA);
     }
 
     @Test
@@ -131,64 +141,11 @@ public class DisciplinaResourceIntTest {
         disciplina.setCodigo(null);
 
         // Create the Disciplina, which fails.
+        DisciplinaDTO disciplinaDTO = disciplinaMapper.disciplinaToDisciplinaDTO(disciplina);
 
         restDisciplinaMockMvc.perform(post("/api/disciplinas")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(disciplina)))
-                .andExpect(status().isBadRequest());
-
-        List<Disciplina> disciplinas = disciplinaRepository.findAll();
-        assertThat(disciplinas).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
-    public void checkCreditosIsRequired() throws Exception {
-        int databaseSizeBeforeTest = disciplinaRepository.findAll().size();
-        // set the field null
-        disciplina.setCreditos(null);
-
-        // Create the Disciplina, which fails.
-
-        restDisciplinaMockMvc.perform(post("/api/disciplinas")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(disciplina)))
-                .andExpect(status().isBadRequest());
-
-        List<Disciplina> disciplinas = disciplinaRepository.findAll();
-        assertThat(disciplinas).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
-    public void checkCargahorariaIsRequired() throws Exception {
-        int databaseSizeBeforeTest = disciplinaRepository.findAll().size();
-        // set the field null
-        disciplina.setCargahoraria(null);
-
-        // Create the Disciplina, which fails.
-
-        restDisciplinaMockMvc.perform(post("/api/disciplinas")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(disciplina)))
-                .andExpect(status().isBadRequest());
-
-        List<Disciplina> disciplinas = disciplinaRepository.findAll();
-        assertThat(disciplinas).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
-    public void checkEmentaIsRequired() throws Exception {
-        int databaseSizeBeforeTest = disciplinaRepository.findAll().size();
-        // set the field null
-        disciplina.setEmenta(null);
-
-        // Create the Disciplina, which fails.
-
-        restDisciplinaMockMvc.perform(post("/api/disciplinas")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(disciplina)))
+                .content(TestUtil.convertObjectToJsonBytes(disciplinaDTO)))
                 .andExpect(status().isBadRequest());
 
         List<Disciplina> disciplinas = disciplinaRepository.findAll();
@@ -203,10 +160,68 @@ public class DisciplinaResourceIntTest {
         disciplina.setNome(null);
 
         // Create the Disciplina, which fails.
+        DisciplinaDTO disciplinaDTO = disciplinaMapper.disciplinaToDisciplinaDTO(disciplina);
 
         restDisciplinaMockMvc.perform(post("/api/disciplinas")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(disciplina)))
+                .content(TestUtil.convertObjectToJsonBytes(disciplinaDTO)))
+                .andExpect(status().isBadRequest());
+
+        List<Disciplina> disciplinas = disciplinaRepository.findAll();
+        assertThat(disciplinas).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkCreditosIsRequired() throws Exception {
+        int databaseSizeBeforeTest = disciplinaRepository.findAll().size();
+        // set the field null
+        disciplina.setCreditos(null);
+
+        // Create the Disciplina, which fails.
+        DisciplinaDTO disciplinaDTO = disciplinaMapper.disciplinaToDisciplinaDTO(disciplina);
+
+        restDisciplinaMockMvc.perform(post("/api/disciplinas")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(disciplinaDTO)))
+                .andExpect(status().isBadRequest());
+
+        List<Disciplina> disciplinas = disciplinaRepository.findAll();
+        assertThat(disciplinas).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkCargaHorariaIsRequired() throws Exception {
+        int databaseSizeBeforeTest = disciplinaRepository.findAll().size();
+        // set the field null
+        disciplina.setCargaHoraria(null);
+
+        // Create the Disciplina, which fails.
+        DisciplinaDTO disciplinaDTO = disciplinaMapper.disciplinaToDisciplinaDTO(disciplina);
+
+        restDisciplinaMockMvc.perform(post("/api/disciplinas")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(disciplinaDTO)))
+                .andExpect(status().isBadRequest());
+
+        List<Disciplina> disciplinas = disciplinaRepository.findAll();
+        assertThat(disciplinas).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkEmentaIsRequired() throws Exception {
+        int databaseSizeBeforeTest = disciplinaRepository.findAll().size();
+        // set the field null
+        disciplina.setEmenta(null);
+
+        // Create the Disciplina, which fails.
+        DisciplinaDTO disciplinaDTO = disciplinaMapper.disciplinaToDisciplinaDTO(disciplina);
+
+        restDisciplinaMockMvc.perform(post("/api/disciplinas")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(disciplinaDTO)))
                 .andExpect(status().isBadRequest());
 
         List<Disciplina> disciplinas = disciplinaRepository.findAll();
@@ -225,10 +240,10 @@ public class DisciplinaResourceIntTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(jsonPath("$.[*].id").value(hasItem(disciplina.getId().intValue())))
                 .andExpect(jsonPath("$.[*].codigo").value(hasItem(DEFAULT_CODIGO.toString())))
+                .andExpect(jsonPath("$.[*].nome").value(hasItem(DEFAULT_NOME.toString())))
                 .andExpect(jsonPath("$.[*].creditos").value(hasItem(DEFAULT_CREDITOS)))
-                .andExpect(jsonPath("$.[*].cargahoraria").value(hasItem(DEFAULT_CARGAHORARIA)))
-                .andExpect(jsonPath("$.[*].ementa").value(hasItem(DEFAULT_EMENTA.toString())))
-                .andExpect(jsonPath("$.[*].nome").value(hasItem(DEFAULT_NOME.toString())));
+                .andExpect(jsonPath("$.[*].cargaHoraria").value(hasItem(DEFAULT_CARGA_HORARIA)))
+                .andExpect(jsonPath("$.[*].ementa").value(hasItem(DEFAULT_EMENTA.toString())));
     }
 
     @Test
@@ -243,10 +258,10 @@ public class DisciplinaResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(disciplina.getId().intValue()))
             .andExpect(jsonPath("$.codigo").value(DEFAULT_CODIGO.toString()))
+            .andExpect(jsonPath("$.nome").value(DEFAULT_NOME.toString()))
             .andExpect(jsonPath("$.creditos").value(DEFAULT_CREDITOS))
-            .andExpect(jsonPath("$.cargahoraria").value(DEFAULT_CARGAHORARIA))
-            .andExpect(jsonPath("$.ementa").value(DEFAULT_EMENTA.toString()))
-            .andExpect(jsonPath("$.nome").value(DEFAULT_NOME.toString()));
+            .andExpect(jsonPath("$.cargaHoraria").value(DEFAULT_CARGA_HORARIA))
+            .andExpect(jsonPath("$.ementa").value(DEFAULT_EMENTA.toString()));
     }
 
     @Test
@@ -268,14 +283,15 @@ public class DisciplinaResourceIntTest {
         Disciplina updatedDisciplina = disciplinaRepository.findOne(disciplina.getId());
         updatedDisciplina
                 .codigo(UPDATED_CODIGO)
+                .nome(UPDATED_NOME)
                 .creditos(UPDATED_CREDITOS)
-                .cargahoraria(UPDATED_CARGAHORARIA)
-                .ementa(UPDATED_EMENTA)
-                .nome(UPDATED_NOME);
+                .cargaHoraria(UPDATED_CARGA_HORARIA)
+                .ementa(UPDATED_EMENTA);
+        DisciplinaDTO disciplinaDTO = disciplinaMapper.disciplinaToDisciplinaDTO(updatedDisciplina);
 
         restDisciplinaMockMvc.perform(put("/api/disciplinas")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(updatedDisciplina)))
+                .content(TestUtil.convertObjectToJsonBytes(disciplinaDTO)))
                 .andExpect(status().isOk());
 
         // Validate the Disciplina in the database
@@ -283,10 +299,10 @@ public class DisciplinaResourceIntTest {
         assertThat(disciplinas).hasSize(databaseSizeBeforeUpdate);
         Disciplina testDisciplina = disciplinas.get(disciplinas.size() - 1);
         assertThat(testDisciplina.getCodigo()).isEqualTo(UPDATED_CODIGO);
-        assertThat(testDisciplina.getCreditos()).isEqualTo(UPDATED_CREDITOS);
-        assertThat(testDisciplina.getCargahoraria()).isEqualTo(UPDATED_CARGAHORARIA);
-        assertThat(testDisciplina.getEmenta()).isEqualTo(UPDATED_EMENTA);
         assertThat(testDisciplina.getNome()).isEqualTo(UPDATED_NOME);
+        assertThat(testDisciplina.getCreditos()).isEqualTo(UPDATED_CREDITOS);
+        assertThat(testDisciplina.getCargaHoraria()).isEqualTo(UPDATED_CARGA_HORARIA);
+        assertThat(testDisciplina.getEmenta()).isEqualTo(UPDATED_EMENTA);
     }
 
     @Test

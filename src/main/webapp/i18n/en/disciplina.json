@@ -17,10 +17,11 @@
                 "title": "Disciplina"
             },
             "codigo": "Codigo",
+            "nome": "Nome",
             "creditos": "Creditos",
-            "cargahoraria": "Cargahoraria",
+            "cargaHoraria": "Carga Horaria",
             "ementa": "Ementa",
-            "nome": "Nome"
+            "turma": "Turma"
         }
     }
 }

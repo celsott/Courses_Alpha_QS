@@ -1,11 +1,14 @@
 package com.qs.courses_alpha.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Objects;
 
 /**
@@ -27,21 +30,27 @@ public class Disciplina implements Serializable {
     private String codigo;
 
     @NotNull
+    @Column(name = "nome", nullable = false)
+    private String nome;
+
+    @NotNull
+    @Min(value = 0)
     @Column(name = "creditos", nullable = false)
     private Integer creditos;
 
     @NotNull
-    @Column(name = "cargahoraria", nullable = false)
-    private Integer cargahoraria;
+    @Min(value = 0)
+    @Column(name = "carga_horaria", nullable = false)
+    private Integer cargaHoraria;
 
     @NotNull
-    @Size(min = 4, max = 512)
-    @Column(name = "ementa", length = 512, nullable = false)
+    @Column(name = "ementa", nullable = false)
     private String ementa;
 
-    @NotNull
-    @Column(name = "nome", nullable = false)
-    private String nome;
+    @OneToMany(mappedBy = "disciplina")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Turma> turmas = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -64,6 +73,19 @@ public class Disciplina implements Serializable {
         this.codigo = codigo;
     }
 
+    public String getNome() {
+        return nome;
+    }
+
+    public Disciplina nome(String nome) {
+        this.nome = nome;
+        return this;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
     public Integer getCreditos() {
         return creditos;
     }
@@ -77,17 +99,17 @@ public class Disciplina implements Serializable {
         this.creditos = creditos;
     }
 
-    public Integer getCargahoraria() {
-        return cargahoraria;
+    public Integer getCargaHoraria() {
+        return cargaHoraria;
     }
 
-    public Disciplina cargahoraria(Integer cargahoraria) {
-        this.cargahoraria = cargahoraria;
+    public Disciplina cargaHoraria(Integer cargaHoraria) {
+        this.cargaHoraria = cargaHoraria;
         return this;
     }
 
-    public void setCargahoraria(Integer cargahoraria) {
-        this.cargahoraria = cargahoraria;
+    public void setCargaHoraria(Integer cargaHoraria) {
+        this.cargaHoraria = cargaHoraria;
     }
 
     public String getEmenta() {
@@ -103,17 +125,29 @@ public class Disciplina implements Serializable {
         this.ementa = ementa;
     }
 
-    public String getNome() {
-        return nome;
+    public Set<Turma> getTurmas() {
+        return turmas;
     }
 
-    public Disciplina nome(String nome) {
-        this.nome = nome;
+    public Disciplina turmas(Set<Turma> turmas) {
+        this.turmas = turmas;
         return this;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public Disciplina addTurma(Turma turma) {
+        turmas.add(turma);
+        turma.setDisciplina(this);
+        return this;
+    }
+
+    public Disciplina removeTurma(Turma turma) {
+        turmas.remove(turma);
+        turma.setDisciplina(null);
+        return this;
+    }
+
+    public void setTurmas(Set<Turma> turmas) {
+        this.turmas = turmas;
     }
 
     @Override
@@ -141,10 +175,10 @@ public class Disciplina implements Serializable {
         return "Disciplina{" +
             "id=" + id +
             ", codigo='" + codigo + "'" +
-            ", creditos='" + creditos + "'" +
-            ", cargahoraria='" + cargahoraria + "'" +
-            ", ementa='" + ementa + "'" +
             ", nome='" + nome + "'" +
+            ", creditos='" + creditos + "'" +
+            ", cargaHoraria='" + cargaHoraria + "'" +
+            ", ementa='" + ementa + "'" +
             '}';
     }
 }

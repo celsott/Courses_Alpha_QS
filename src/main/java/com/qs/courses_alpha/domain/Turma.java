@@ -1,5 +1,6 @@
 package com.qs.courses_alpha.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -25,36 +26,34 @@ public class Turma implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "codigoturma", nullable = false)
-    private String codigoturma;
-
-    @NotNull
     @Column(name = "horario", nullable = false)
     private String horario;
+
+    @NotNull
+    @Min(value = 1)
+    @Max(value = 4)
+    @Column(name = "periodo", nullable = false)
+    private Integer periodo;
+
+    @NotNull
+    @Column(name = "ano", nullable = false)
+    private Integer ano;
+
+    @OneToMany(mappedBy = "turma")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Avaliacao> avaliacaos = new HashSet<>();
+
+    @ManyToOne
+    @NotNull
+    private Professor professor;
 
     @ManyToOne
     @NotNull
     private Disciplina disciplina;
 
     @ManyToOne
-    @NotNull
-    private Professor professor;
-
-    @ManyToMany
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    @NotNull
-    @JoinTable(name = "turma_aluno",
-               joinColumns = @JoinColumn(name="turmas_id", referencedColumnName="ID"),
-               inverseJoinColumns = @JoinColumn(name="alunos_id", referencedColumnName="ID"))
-    private Set<Aluno> alunos = new HashSet<>();
-
-    @ManyToMany
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    @NotNull
-    @JoinTable(name = "turma_sala",
-               joinColumns = @JoinColumn(name="turmas_id", referencedColumnName="ID"),
-               inverseJoinColumns = @JoinColumn(name="salas_id", referencedColumnName="ID"))
-    private Set<Sala> salas = new HashSet<>();
+    private Sala sala;
 
     public Long getId() {
         return id;
@@ -62,19 +61,6 @@ public class Turma implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getCodigoturma() {
-        return codigoturma;
-    }
-
-    public Turma codigoturma(String codigoturma) {
-        this.codigoturma = codigoturma;
-        return this;
-    }
-
-    public void setCodigoturma(String codigoturma) {
-        this.codigoturma = codigoturma;
     }
 
     public String getHorario() {
@@ -90,17 +76,55 @@ public class Turma implements Serializable {
         this.horario = horario;
     }
 
-    public Disciplina getDisciplina() {
-        return disciplina;
+    public Integer getPeriodo() {
+        return periodo;
     }
 
-    public Turma disciplina(Disciplina disciplina) {
-        this.disciplina = disciplina;
+    public Turma periodo(Integer periodo) {
+        this.periodo = periodo;
         return this;
     }
 
-    public void setDisciplina(Disciplina disciplina) {
-        this.disciplina = disciplina;
+    public void setPeriodo(Integer periodo) {
+        this.periodo = periodo;
+    }
+
+    public Integer getAno() {
+        return ano;
+    }
+
+    public Turma ano(Integer ano) {
+        this.ano = ano;
+        return this;
+    }
+
+    public void setAno(Integer ano) {
+        this.ano = ano;
+    }
+
+    public Set<Avaliacao> getAvaliacaos() {
+        return avaliacaos;
+    }
+
+    public Turma avaliacaos(Set<Avaliacao> avaliacaos) {
+        this.avaliacaos = avaliacaos;
+        return this;
+    }
+
+    public Turma addAvaliacao(Avaliacao avaliacao) {
+        avaliacaos.add(avaliacao);
+        avaliacao.setTurma(this);
+        return this;
+    }
+
+    public Turma removeAvaliacao(Avaliacao avaliacao) {
+        avaliacaos.remove(avaliacao);
+        avaliacao.setTurma(null);
+        return this;
+    }
+
+    public void setAvaliacaos(Set<Avaliacao> avaliacaos) {
+        this.avaliacaos = avaliacaos;
     }
 
     public Professor getProfessor() {
@@ -116,54 +140,30 @@ public class Turma implements Serializable {
         this.professor = professor;
     }
 
-    public Set<Aluno> getAlunos() {
-        return alunos;
+    public Disciplina getDisciplina() {
+        return disciplina;
     }
 
-    public Turma alunos(Set<Aluno> alunos) {
-        this.alunos = alunos;
+    public Turma disciplina(Disciplina disciplina) {
+        this.disciplina = disciplina;
         return this;
     }
 
-    public Turma addAluno(Aluno aluno) {
-        alunos.add(aluno);
-        aluno.getTurmas().add(this);
+    public void setDisciplina(Disciplina disciplina) {
+        this.disciplina = disciplina;
+    }
+
+    public Sala getSala() {
+        return sala;
+    }
+
+    public Turma sala(Sala sala) {
+        this.sala = sala;
         return this;
     }
 
-    public Turma removeAluno(Aluno aluno) {
-        alunos.remove(aluno);
-        aluno.getTurmas().remove(this);
-        return this;
-    }
-
-    public void setAlunos(Set<Aluno> alunos) {
-        this.alunos = alunos;
-    }
-
-    public Set<Sala> getSalas() {
-        return salas;
-    }
-
-    public Turma salas(Set<Sala> salas) {
-        this.salas = salas;
-        return this;
-    }
-
-    public Turma addSala(Sala sala) {
-        salas.add(sala);
-        sala.getTurmas().add(this);
-        return this;
-    }
-
-    public Turma removeSala(Sala sala) {
-        salas.remove(sala);
-        sala.getTurmas().remove(this);
-        return this;
-    }
-
-    public void setSalas(Set<Sala> salas) {
-        this.salas = salas;
+    public void setSala(Sala sala) {
+        this.sala = sala;
     }
 
     @Override
@@ -190,8 +190,9 @@ public class Turma implements Serializable {
     public String toString() {
         return "Turma{" +
             "id=" + id +
-            ", codigoturma='" + codigoturma + "'" +
             ", horario='" + horario + "'" +
+            ", periodo='" + periodo + "'" +
+            ", ano='" + ano + "'" +
             '}';
     }
 }

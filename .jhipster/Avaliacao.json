@@ -2,57 +2,41 @@
     "fluentMethods": true,
     "relationships": [
         {
+            "relationshipType": "many-to-one",
+            "relationshipValidateRules": "required",
+            "relationshipName": "turma",
+            "otherEntityName": "turma",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipValidateRules": "required",
             "relationshipName": "aluno",
             "otherEntityName": "aluno",
-            "relationshipType": "many-to-many",
-            "relationshipValidateRules": [
-                "required"
-            ],
-            "otherEntityField": "nome",
-            "ownerSide": true,
-            "otherEntityRelationshipName": "avaliacao"
-        },
-        {
-            "relationshipName": "disciplina",
-            "otherEntityName": "disciplina",
-            "relationshipType": "one-to-many",
-            "otherEntityRelationshipName": "avaliacao"
-        },
-        {
-            "relationshipName": "disciplina",
-            "otherEntityName": "disciplina",
-            "relationshipType": "many-to-one",
-            "relationshipValidateRules": [
-                "required"
-            ],
             "otherEntityField": "nome"
         }
     ],
     "fields": [
         {
             "fieldName": "nota",
-            "fieldType": "String",
-            "fieldValidateRules": [
-                "required",
-                "minlength",
-                "maxlength",
-                "pattern"
-            ],
-            "fieldValidateRulesMinlength": "1",
-            "fieldValidateRulesMaxlength": "1",
-            "fieldValidateRulesPattern": "(^[A-D])"
+            "fieldType": "Nota",
+            "fieldValues": "A,B,C,D"
         },
         {
-            "fieldName": "faltas",
-            "fieldType": "Integer",
+            "fieldName": "frequencia",
+            "fieldType": "Float",
             "fieldValidateRules": [
-                "required"
-            ]
+                "min",
+                "max"
+            ],
+            "fieldValidateRulesMin": 0,
+            "fieldValidateRulesMax": 1
         }
     ],
     "changelogDate": "20161030210216",
-    "dto": "no",
-    "service": "no",
     "entityTableName": "avaliacao",
-    "pagination": "no"
+    "dto": "mapstruct",
+    "pagination": "no",
+    "service": "serviceImpl",
+    "angularJSSuffix": "mySuffix"
 }

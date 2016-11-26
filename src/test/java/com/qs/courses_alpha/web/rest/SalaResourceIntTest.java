@@ -4,6 +4,9 @@ import com.qs.courses_alpha.CoursesAlphaQsApp;
 
 import com.qs.courses_alpha.domain.Sala;
 import com.qs.courses_alpha.repository.SalaRepository;
+import com.qs.courses_alpha.service.SalaService;
+import com.qs.courses_alpha.service.dto.SalaDTO;
+import com.qs.courses_alpha.service.mapper.SalaMapper;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -38,14 +41,20 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = CoursesAlphaQsApp.class)
 public class SalaResourceIntTest {
 
-    private static final String DEFAULT_ENDERECO = "AAAAA";
-    private static final String UPDATED_ENDERECO = "BBBBB";
+    private static final String DEFAULT_NUMERO = "AAAAA";
+    private static final String UPDATED_NUMERO = "BBBBB";
 
-    private static final Integer DEFAULT_CAPACIDADE = 1;
-    private static final Integer UPDATED_CAPACIDADE = 2;
+    private static final Integer DEFAULT_CAPACIDADE = 0;
+    private static final Integer UPDATED_CAPACIDADE = 1;
 
     @Inject
     private SalaRepository salaRepository;
+
+    @Inject
+    private SalaMapper salaMapper;
+
+    @Inject
+    private SalaService salaService;
 
     @Inject
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
@@ -64,7 +73,7 @@ public class SalaResourceIntTest {
     public void setup() {
         MockitoAnnotations.initMocks(this);
         SalaResource salaResource = new SalaResource();
-        ReflectionTestUtils.setField(salaResource, "salaRepository", salaRepository);
+        ReflectionTestUtils.setField(salaResource, "salaService", salaService);
         this.restSalaMockMvc = MockMvcBuilders.standaloneSetup(salaResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setMessageConverters(jacksonMessageConverter).build();
@@ -78,7 +87,7 @@ public class SalaResourceIntTest {
      */
     public static Sala createEntity(EntityManager em) {
         Sala sala = new Sala()
-                .endereco(DEFAULT_ENDERECO)
+                .numero(DEFAULT_NUMERO)
                 .capacidade(DEFAULT_CAPACIDADE);
         return sala;
     }
@@ -94,32 +103,34 @@ public class SalaResourceIntTest {
         int databaseSizeBeforeCreate = salaRepository.findAll().size();
 
         // Create the Sala
+        SalaDTO salaDTO = salaMapper.salaToSalaDTO(sala);
 
         restSalaMockMvc.perform(post("/api/salas")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(sala)))
+                .content(TestUtil.convertObjectToJsonBytes(salaDTO)))
                 .andExpect(status().isCreated());
 
         // Validate the Sala in the database
         List<Sala> salas = salaRepository.findAll();
         assertThat(salas).hasSize(databaseSizeBeforeCreate + 1);
         Sala testSala = salas.get(salas.size() - 1);
-        assertThat(testSala.getEndereco()).isEqualTo(DEFAULT_ENDERECO);
+        assertThat(testSala.getNumero()).isEqualTo(DEFAULT_NUMERO);
         assertThat(testSala.getCapacidade()).isEqualTo(DEFAULT_CAPACIDADE);
     }
 
     @Test
     @Transactional
-    public void checkEnderecoIsRequired() throws Exception {
+    public void checkNumeroIsRequired() throws Exception {
         int databaseSizeBeforeTest = salaRepository.findAll().size();
         // set the field null
-        sala.setEndereco(null);
+        sala.setNumero(null);
 
         // Create the Sala, which fails.
+        SalaDTO salaDTO = salaMapper.salaToSalaDTO(sala);
 
         restSalaMockMvc.perform(post("/api/salas")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(sala)))
+                .content(TestUtil.convertObjectToJsonBytes(salaDTO)))
                 .andExpect(status().isBadRequest());
 
         List<Sala> salas = salaRepository.findAll();
@@ -134,10 +145,11 @@ public class SalaResourceIntTest {
         sala.setCapacidade(null);
 
         // Create the Sala, which fails.
+        SalaDTO salaDTO = salaMapper.salaToSalaDTO(sala);
 
         restSalaMockMvc.perform(post("/api/salas")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(sala)))
+                .content(TestUtil.convertObjectToJsonBytes(salaDTO)))
                 .andExpect(status().isBadRequest());
 
         List<Sala> salas = salaRepository.findAll();
@@ -155,7 +167,7 @@ public class SalaResourceIntTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(jsonPath("$.[*].id").value(hasItem(sala.getId().intValue())))
-                .andExpect(jsonPath("$.[*].endereco").value(hasItem(DEFAULT_ENDERECO.toString())))
+                .andExpect(jsonPath("$.[*].numero").value(hasItem(DEFAULT_NUMERO.toString())))
                 .andExpect(jsonPath("$.[*].capacidade").value(hasItem(DEFAULT_CAPACIDADE)));
     }
 
@@ -170,7 +182,7 @@ public class SalaResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(sala.getId().intValue()))
-            .andExpect(jsonPath("$.endereco").value(DEFAULT_ENDERECO.toString()))
+            .andExpect(jsonPath("$.numero").value(DEFAULT_NUMERO.toString()))
             .andExpect(jsonPath("$.capacidade").value(DEFAULT_CAPACIDADE));
     }
 
@@ -192,19 +204,20 @@ public class SalaResourceIntTest {
         // Update the sala
         Sala updatedSala = salaRepository.findOne(sala.getId());
         updatedSala
-                .endereco(UPDATED_ENDERECO)
+                .numero(UPDATED_NUMERO)
                 .capacidade(UPDATED_CAPACIDADE);
+        SalaDTO salaDTO = salaMapper.salaToSalaDTO(updatedSala);
 
         restSalaMockMvc.perform(put("/api/salas")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(updatedSala)))
+                .content(TestUtil.convertObjectToJsonBytes(salaDTO)))
                 .andExpect(status().isOk());
 
         // Validate the Sala in the database
         List<Sala> salas = salaRepository.findAll();
         assertThat(salas).hasSize(databaseSizeBeforeUpdate);
         Sala testSala = salas.get(salas.size() - 1);
-        assertThat(testSala.getEndereco()).isEqualTo(UPDATED_ENDERECO);
+        assertThat(testSala.getNumero()).isEqualTo(UPDATED_NUMERO);
         assertThat(testSala.getCapacidade()).isEqualTo(UPDATED_CAPACIDADE);
     }
 

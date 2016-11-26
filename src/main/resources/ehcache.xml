@@ -41,7 +41,15 @@
         timeToLiveSeconds="3600">
     </cache>
 
+    <cache name="com.qs.courses_alpha.domain.Aluno.avaliacaos"
+        timeToLiveSeconds="3600">
+    </cache>
+
     <cache name="com.qs.courses_alpha.domain.Professor"
+        timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="com.qs.courses_alpha.domain.Professor.turmas"
         timeToLiveSeconds="3600">
     </cache>
 
@@ -49,7 +57,15 @@
         timeToLiveSeconds="3600">
     </cache>
 
+    <cache name="com.qs.courses_alpha.domain.Disciplina.turmas"
+        timeToLiveSeconds="3600">
+    </cache>
+
     <cache name="com.qs.courses_alpha.domain.Sala"
+        timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="com.qs.courses_alpha.domain.Sala.turmas"
         timeToLiveSeconds="3600">
     </cache>
 
@@ -57,31 +73,11 @@
         timeToLiveSeconds="3600">
     </cache>
 
-    <cache name="com.qs.courses_alpha.domain.Turma.matriculas"
-        timeToLiveSeconds="3600">
-    </cache>
-
-    <cache name="com.qs.courses_alpha.domain.Turma.localizadas"
-        timeToLiveSeconds="3600">
-    </cache>
-
-    <cache name="com.qs.courses_alpha.domain.Turma.alunos"
-        timeToLiveSeconds="3600">
-    </cache>
-
-    <cache name="com.qs.courses_alpha.domain.Turma.salas"
+    <cache name="com.qs.courses_alpha.domain.Turma.avaliacaos"
         timeToLiveSeconds="3600">
     </cache>
 
     <cache name="com.qs.courses_alpha.domain.Avaliacao"
-        timeToLiveSeconds="3600">
-    </cache>
-
-    <cache name="com.qs.courses_alpha.domain.Avaliacao.alunos"
-        timeToLiveSeconds="3600">
-    </cache>
-
-    <cache name="com.qs.courses_alpha.domain.Avaliacao.disciplinas"
         timeToLiveSeconds="3600">
     </cache>
 

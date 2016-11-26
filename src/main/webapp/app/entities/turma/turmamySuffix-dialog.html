@@ -1,0 +1,108 @@
+
+<form name="editForm" role="form" novalidate ng-submit="vm.save()" show-validation>
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                ng-click="vm.clear()">&times;</button>
+        <h4 class="modal-title" id="myTurmaLabel" data-translate="coursesAlphaQsApp.turma.home.createOrEditLabel">Create or edit a Turma</h4>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" ng-show="vm.turma.id">
+            <label for="id" data-translate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                    ng-model="vm.turma.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="coursesAlphaQsApp.turma.horario" for="field_horario">Horario</label>
+            <input type="text" class="form-control" name="horario" id="field_horario"
+                    ng-model="vm.turma.horario"
+                    required />
+            <div ng-show="editForm.horario.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.horario.$error.required" data-translate="entity.validation.required">
+                    This field is required.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="coursesAlphaQsApp.turma.periodo" for="field_periodo">Periodo</label>
+            <input type="number" class="form-control" name="periodo" id="field_periodo"
+                    ng-model="vm.turma.periodo"
+                    required min="1" max="4" />
+            <div ng-show="editForm.periodo.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.periodo.$error.required" data-translate="entity.validation.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.periodo.$error.min" data-translate="entity.validation.min" translate-value-min="1">
+                    This field should be more than 1.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.periodo.$error.max" data-translate="entity.validation.max" translate-value-max="4">
+                    This field cannot be more than 4.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.periodo.$error.number" data-translate="entity.validation.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="coursesAlphaQsApp.turma.ano" for="field_ano">Ano</label>
+            <input type="number" class="form-control" name="ano" id="field_ano"
+                    ng-model="vm.turma.ano"
+                    required />
+            <div ng-show="editForm.ano.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.ano.$error.required" data-translate="entity.validation.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.ano.$error.number" data-translate="entity.validation.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label data-translate="coursesAlphaQsApp.turma.professor" for="field_professor">Professor</label>
+            <select class="form-control" id="field_professor" name="professor" ng-model="vm.turma.professorId" ng-options="professor.id as professor.nome for professor in vm.professors"             required>
+                <option value=""></option>
+            </select>
+        </div>
+        <div ng-show="editForm.professor.$invalid">
+            <p class="help-block"
+                ng-show="editForm.professor.$error.required" data-translate="entity.validation.required">
+                This field is required.
+            </p>
+        </div>
+        <div class="form-group">
+            <label data-translate="coursesAlphaQsApp.turma.disciplina" for="field_disciplina">Disciplina</label>
+            <select class="form-control" id="field_disciplina" name="disciplina" ng-model="vm.turma.disciplinaId" ng-options="disciplina.id as disciplina.nome for disciplina in vm.disciplinas"             required>
+                <option value=""></option>
+            </select>
+        </div>
+        <div ng-show="editForm.disciplina.$invalid">
+            <p class="help-block"
+                ng-show="editForm.disciplina.$error.required" data-translate="entity.validation.required">
+                This field is required.
+            </p>
+        </div>
+        <div class="form-group">
+            <label data-translate="coursesAlphaQsApp.turma.sala" for="field_sala">Sala</label>
+            <select class="form-control" id="field_sala" name="sala" ng-model="vm.turma.salaId" ng-options="sala.id as sala.id for sala in vm.salas"            >
+                <option value=""></option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span data-translate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" ng-disabled="editForm.$invalid || vm.isSaving" class="btn btn-primary">
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span data-translate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

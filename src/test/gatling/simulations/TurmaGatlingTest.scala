@@ -67,7 +67,7 @@ class TurmaGatlingTest extends Simulation {
             .exec(http("Create new turma")
             .post("/api/turmas")
             .headers(headers_http_authenticated)
-            .body(StringBody("""{"id":null, "codigoturma":"SAMPLE_TEXT", "horario":"SAMPLE_TEXT"}""")).asJSON
+            .body(StringBody("""{"id":null, "horario":"SAMPLE_TEXT", "periodo":"0", "ano":"0"}""")).asJSON
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_turma_url"))).exitHereIfFailed
             .pause(10)

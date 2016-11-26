@@ -19,9 +19,10 @@
             "dre": "Dre",
             "nome": "Nome",
             "sobrenome": "Sobrenome",
-            "sexo": "Sexo",
             "cpf": "Cpf",
-            "dataNascimento": "Data Nascimento"
+            "dataNascimento": "Data Nascimento",
+            "sexo": "Sexo",
+            "avaliacao": "Avaliacao"
         }
     }
 }

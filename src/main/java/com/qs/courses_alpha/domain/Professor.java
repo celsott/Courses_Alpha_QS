@@ -1,5 +1,6 @@
 package com.qs.courses_alpha.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -7,7 +8,11 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Objects;
+
+import com.qs.courses_alpha.domain.enumeration.Sexo;
 
 /**
  * A Professor.
@@ -24,28 +29,15 @@ public class Professor implements Serializable {
     private Long id;
 
     @NotNull
-    @Pattern(regexp = "(^[0-9]*$])")
-    @Column(name = "matricula", nullable = false)
-    private String matricula;
-
-    @NotNull
-    @Size(min = 2, max = 30)
-    @Column(name = "nome", length = 30, nullable = false)
+    @Column(name = "nome", nullable = false)
     private String nome;
 
     @NotNull
-    @Size(min = 2)
     @Column(name = "sobrenome", nullable = false)
     private String sobrenome;
 
-    @Size(min = 1, max = 1)
-    @Pattern(regexp = "(^[f,m])")
-    @Column(name = "sexo", length = 1)
-    private String sexo;
-
     @NotNull
     @Size(min = 11, max = 11)
-    @Pattern(regexp = "(^[0-9])")
     @Column(name = "cpf", length = 11, nullable = false)
     private String cpf;
 
@@ -53,25 +45,22 @@ public class Professor implements Serializable {
     @Column(name = "data_nascimento", nullable = false)
     private LocalDate dataNascimento;
 
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "sexo", nullable = false)
+    private Sexo sexo;
+
+    @OneToMany(mappedBy = "professor")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Turma> turmas = new HashSet<>();
+
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getMatricula() {
-        return matricula;
-    }
-
-    public Professor matricula(String matricula) {
-        this.matricula = matricula;
-        return this;
-    }
-
-    public void setMatricula(String matricula) {
-        this.matricula = matricula;
     }
 
     public String getNome() {
@@ -100,19 +89,6 @@ public class Professor implements Serializable {
         this.sobrenome = sobrenome;
     }
 
-    public String getSexo() {
-        return sexo;
-    }
-
-    public Professor sexo(String sexo) {
-        this.sexo = sexo;
-        return this;
-    }
-
-    public void setSexo(String sexo) {
-        this.sexo = sexo;
-    }
-
     public String getCpf() {
         return cpf;
     }
@@ -139,6 +115,44 @@ public class Professor implements Serializable {
         this.dataNascimento = dataNascimento;
     }
 
+    public Sexo getSexo() {
+        return sexo;
+    }
+
+    public Professor sexo(Sexo sexo) {
+        this.sexo = sexo;
+        return this;
+    }
+
+    public void setSexo(Sexo sexo) {
+        this.sexo = sexo;
+    }
+
+    public Set<Turma> getTurmas() {
+        return turmas;
+    }
+
+    public Professor turmas(Set<Turma> turmas) {
+        this.turmas = turmas;
+        return this;
+    }
+
+    public Professor addTurma(Turma turma) {
+        turmas.add(turma);
+        turma.setProfessor(this);
+        return this;
+    }
+
+    public Professor removeTurma(Turma turma) {
+        turmas.remove(turma);
+        turma.setProfessor(null);
+        return this;
+    }
+
+    public void setTurmas(Set<Turma> turmas) {
+        this.turmas = turmas;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -163,12 +177,11 @@ public class Professor implements Serializable {
     public String toString() {
         return "Professor{" +
             "id=" + id +
-            ", matricula='" + matricula + "'" +
             ", nome='" + nome + "'" +
             ", sobrenome='" + sobrenome + "'" +
-            ", sexo='" + sexo + "'" +
             ", cpf='" + cpf + "'" +
             ", dataNascimento='" + dataNascimento + "'" +
+            ", sexo='" + sexo + "'" +
             '}';
     }
 }

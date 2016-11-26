@@ -3,11 +3,12 @@ package com.qs.courses_alpha.web.rest;
 import com.qs.courses_alpha.CoursesAlphaQsApp;
 
 import com.qs.courses_alpha.domain.Turma;
-import com.qs.courses_alpha.domain.Disciplina;
 import com.qs.courses_alpha.domain.Professor;
-import com.qs.courses_alpha.domain.Aluno;
-import com.qs.courses_alpha.domain.Sala;
+import com.qs.courses_alpha.domain.Disciplina;
 import com.qs.courses_alpha.repository.TurmaRepository;
+import com.qs.courses_alpha.service.TurmaService;
+import com.qs.courses_alpha.service.dto.TurmaDTO;
+import com.qs.courses_alpha.service.mapper.TurmaMapper;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -42,14 +43,23 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = CoursesAlphaQsApp.class)
 public class TurmaResourceIntTest {
 
-    private static final String DEFAULT_CODIGOTURMA = "AAAAA";
-    private static final String UPDATED_CODIGOTURMA = "BBBBB";
-
     private static final String DEFAULT_HORARIO = "AAAAA";
     private static final String UPDATED_HORARIO = "BBBBB";
 
+    private static final Integer DEFAULT_PERIODO = 1;
+    private static final Integer UPDATED_PERIODO = 2;
+
+    private static final Integer DEFAULT_ANO = 1;
+    private static final Integer UPDATED_ANO = 2;
+
     @Inject
     private TurmaRepository turmaRepository;
+
+    @Inject
+    private TurmaMapper turmaMapper;
+
+    @Inject
+    private TurmaService turmaService;
 
     @Inject
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
@@ -68,7 +78,7 @@ public class TurmaResourceIntTest {
     public void setup() {
         MockitoAnnotations.initMocks(this);
         TurmaResource turmaResource = new TurmaResource();
-        ReflectionTestUtils.setField(turmaResource, "turmaRepository", turmaRepository);
+        ReflectionTestUtils.setField(turmaResource, "turmaService", turmaService);
         this.restTurmaMockMvc = MockMvcBuilders.standaloneSetup(turmaResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setMessageConverters(jacksonMessageConverter).build();
@@ -82,28 +92,19 @@ public class TurmaResourceIntTest {
      */
     public static Turma createEntity(EntityManager em) {
         Turma turma = new Turma()
-                .codigoturma(DEFAULT_CODIGOTURMA)
-                .horario(DEFAULT_HORARIO);
-        // Add required entity
-        Disciplina disciplina = DisciplinaResourceIntTest.createEntity(em);
-        em.persist(disciplina);
-        em.flush();
-        turma.setDisciplina(disciplina);
+                .horario(DEFAULT_HORARIO)
+                .periodo(DEFAULT_PERIODO)
+                .ano(DEFAULT_ANO);
         // Add required entity
         Professor professor = ProfessorResourceIntTest.createEntity(em);
         em.persist(professor);
         em.flush();
         turma.setProfessor(professor);
         // Add required entity
-        Aluno aluno = AlunoResourceIntTest.createEntity(em);
-        em.persist(aluno);
+        Disciplina disciplina = DisciplinaResourceIntTest.createEntity(em);
+        em.persist(disciplina);
         em.flush();
-        turma.getAlunos().add(aluno);
-        // Add required entity
-        Sala sala = SalaResourceIntTest.createEntity(em);
-        em.persist(sala);
-        em.flush();
-        turma.getSalas().add(sala);
+        turma.setDisciplina(disciplina);
         return turma;
     }
 
@@ -118,36 +119,20 @@ public class TurmaResourceIntTest {
         int databaseSizeBeforeCreate = turmaRepository.findAll().size();
 
         // Create the Turma
+        TurmaDTO turmaDTO = turmaMapper.turmaToTurmaDTO(turma);
 
         restTurmaMockMvc.perform(post("/api/turmas")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(turma)))
+                .content(TestUtil.convertObjectToJsonBytes(turmaDTO)))
                 .andExpect(status().isCreated());
 
         // Validate the Turma in the database
         List<Turma> turmas = turmaRepository.findAll();
         assertThat(turmas).hasSize(databaseSizeBeforeCreate + 1);
         Turma testTurma = turmas.get(turmas.size() - 1);
-        assertThat(testTurma.getCodigoturma()).isEqualTo(DEFAULT_CODIGOTURMA);
         assertThat(testTurma.getHorario()).isEqualTo(DEFAULT_HORARIO);
-    }
-
-    @Test
-    @Transactional
-    public void checkCodigoturmaIsRequired() throws Exception {
-        int databaseSizeBeforeTest = turmaRepository.findAll().size();
-        // set the field null
-        turma.setCodigoturma(null);
-
-        // Create the Turma, which fails.
-
-        restTurmaMockMvc.perform(post("/api/turmas")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(turma)))
-                .andExpect(status().isBadRequest());
-
-        List<Turma> turmas = turmaRepository.findAll();
-        assertThat(turmas).hasSize(databaseSizeBeforeTest);
+        assertThat(testTurma.getPeriodo()).isEqualTo(DEFAULT_PERIODO);
+        assertThat(testTurma.getAno()).isEqualTo(DEFAULT_ANO);
     }
 
     @Test
@@ -158,10 +143,49 @@ public class TurmaResourceIntTest {
         turma.setHorario(null);
 
         // Create the Turma, which fails.
+        TurmaDTO turmaDTO = turmaMapper.turmaToTurmaDTO(turma);
 
         restTurmaMockMvc.perform(post("/api/turmas")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(turma)))
+                .content(TestUtil.convertObjectToJsonBytes(turmaDTO)))
+                .andExpect(status().isBadRequest());
+
+        List<Turma> turmas = turmaRepository.findAll();
+        assertThat(turmas).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkPeriodoIsRequired() throws Exception {
+        int databaseSizeBeforeTest = turmaRepository.findAll().size();
+        // set the field null
+        turma.setPeriodo(null);
+
+        // Create the Turma, which fails.
+        TurmaDTO turmaDTO = turmaMapper.turmaToTurmaDTO(turma);
+
+        restTurmaMockMvc.perform(post("/api/turmas")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(turmaDTO)))
+                .andExpect(status().isBadRequest());
+
+        List<Turma> turmas = turmaRepository.findAll();
+        assertThat(turmas).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkAnoIsRequired() throws Exception {
+        int databaseSizeBeforeTest = turmaRepository.findAll().size();
+        // set the field null
+        turma.setAno(null);
+
+        // Create the Turma, which fails.
+        TurmaDTO turmaDTO = turmaMapper.turmaToTurmaDTO(turma);
+
+        restTurmaMockMvc.perform(post("/api/turmas")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(turmaDTO)))
                 .andExpect(status().isBadRequest());
 
         List<Turma> turmas = turmaRepository.findAll();
@@ -179,8 +203,9 @@ public class TurmaResourceIntTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(jsonPath("$.[*].id").value(hasItem(turma.getId().intValue())))
-                .andExpect(jsonPath("$.[*].codigoturma").value(hasItem(DEFAULT_CODIGOTURMA.toString())))
-                .andExpect(jsonPath("$.[*].horario").value(hasItem(DEFAULT_HORARIO.toString())));
+                .andExpect(jsonPath("$.[*].horario").value(hasItem(DEFAULT_HORARIO.toString())))
+                .andExpect(jsonPath("$.[*].periodo").value(hasItem(DEFAULT_PERIODO)))
+                .andExpect(jsonPath("$.[*].ano").value(hasItem(DEFAULT_ANO)));
     }
 
     @Test
@@ -194,8 +219,9 @@ public class TurmaResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(turma.getId().intValue()))
-            .andExpect(jsonPath("$.codigoturma").value(DEFAULT_CODIGOTURMA.toString()))
-            .andExpect(jsonPath("$.horario").value(DEFAULT_HORARIO.toString()));
+            .andExpect(jsonPath("$.horario").value(DEFAULT_HORARIO.toString()))
+            .andExpect(jsonPath("$.periodo").value(DEFAULT_PERIODO))
+            .andExpect(jsonPath("$.ano").value(DEFAULT_ANO));
     }
 
     @Test
@@ -216,20 +242,23 @@ public class TurmaResourceIntTest {
         // Update the turma
         Turma updatedTurma = turmaRepository.findOne(turma.getId());
         updatedTurma
-                .codigoturma(UPDATED_CODIGOTURMA)
-                .horario(UPDATED_HORARIO);
+                .horario(UPDATED_HORARIO)
+                .periodo(UPDATED_PERIODO)
+                .ano(UPDATED_ANO);
+        TurmaDTO turmaDTO = turmaMapper.turmaToTurmaDTO(updatedTurma);
 
         restTurmaMockMvc.perform(put("/api/turmas")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(updatedTurma)))
+                .content(TestUtil.convertObjectToJsonBytes(turmaDTO)))
                 .andExpect(status().isOk());
 
         // Validate the Turma in the database
         List<Turma> turmas = turmaRepository.findAll();
         assertThat(turmas).hasSize(databaseSizeBeforeUpdate);
         Turma testTurma = turmas.get(turmas.size() - 1);
-        assertThat(testTurma.getCodigoturma()).isEqualTo(UPDATED_CODIGOTURMA);
         assertThat(testTurma.getHorario()).isEqualTo(UPDATED_HORARIO);
+        assertThat(testTurma.getPeriodo()).isEqualTo(UPDATED_PERIODO);
+        assertThat(testTurma.getAno()).isEqualTo(UPDATED_ANO);
     }
 
     @Test

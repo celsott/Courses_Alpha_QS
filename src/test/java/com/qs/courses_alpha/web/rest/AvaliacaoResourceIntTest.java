@@ -3,9 +3,12 @@ package com.qs.courses_alpha.web.rest;
 import com.qs.courses_alpha.CoursesAlphaQsApp;
 
 import com.qs.courses_alpha.domain.Avaliacao;
+import com.qs.courses_alpha.domain.Turma;
 import com.qs.courses_alpha.domain.Aluno;
-import com.qs.courses_alpha.domain.Disciplina;
 import com.qs.courses_alpha.repository.AvaliacaoRepository;
+import com.qs.courses_alpha.service.AvaliacaoService;
+import com.qs.courses_alpha.service.dto.AvaliacaoDTO;
+import com.qs.courses_alpha.service.mapper.AvaliacaoMapper;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -31,6 +34,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import com.qs.courses_alpha.domain.enumeration.Nota;
 /**
  * Test class for the AvaliacaoResource REST controller.
  *
@@ -40,14 +44,20 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = CoursesAlphaQsApp.class)
 public class AvaliacaoResourceIntTest {
 
-    private static final String DEFAULT_NOTA = "A";
-    private static final String UPDATED_NOTA = "B";
+    private static final Nota DEFAULT_NOTA = Nota.A;
+    private static final Nota UPDATED_NOTA = Nota.B;
 
-    private static final Integer DEFAULT_FALTAS = 1;
-    private static final Integer UPDATED_FALTAS = 2;
+    private static final Float DEFAULT_FREQUENCIA = 0F;
+    private static final Float UPDATED_FREQUENCIA = 1F;
 
     @Inject
     private AvaliacaoRepository avaliacaoRepository;
+
+    @Inject
+    private AvaliacaoMapper avaliacaoMapper;
+
+    @Inject
+    private AvaliacaoService avaliacaoService;
 
     @Inject
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
@@ -66,7 +76,7 @@ public class AvaliacaoResourceIntTest {
     public void setup() {
         MockitoAnnotations.initMocks(this);
         AvaliacaoResource avaliacaoResource = new AvaliacaoResource();
-        ReflectionTestUtils.setField(avaliacaoResource, "avaliacaoRepository", avaliacaoRepository);
+        ReflectionTestUtils.setField(avaliacaoResource, "avaliacaoService", avaliacaoService);
         this.restAvaliacaoMockMvc = MockMvcBuilders.standaloneSetup(avaliacaoResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setMessageConverters(jacksonMessageConverter).build();
@@ -81,17 +91,17 @@ public class AvaliacaoResourceIntTest {
     public static Avaliacao createEntity(EntityManager em) {
         Avaliacao avaliacao = new Avaliacao()
                 .nota(DEFAULT_NOTA)
-                .faltas(DEFAULT_FALTAS);
+                .frequencia(DEFAULT_FREQUENCIA);
+        // Add required entity
+        Turma turma = TurmaResourceIntTest.createEntity(em);
+        em.persist(turma);
+        em.flush();
+        avaliacao.setTurma(turma);
         // Add required entity
         Aluno aluno = AlunoResourceIntTest.createEntity(em);
         em.persist(aluno);
         em.flush();
-        avaliacao.getAlunos().add(aluno);
-        // Add required entity
-        Disciplina disciplina = DisciplinaResourceIntTest.createEntity(em);
-        em.persist(disciplina);
-        em.flush();
-        avaliacao.setDisciplina(disciplina);
+        avaliacao.setAluno(aluno);
         return avaliacao;
     }
 
@@ -106,10 +116,11 @@ public class AvaliacaoResourceIntTest {
         int databaseSizeBeforeCreate = avaliacaoRepository.findAll().size();
 
         // Create the Avaliacao
+        AvaliacaoDTO avaliacaoDTO = avaliacaoMapper.avaliacaoToAvaliacaoDTO(avaliacao);
 
         restAvaliacaoMockMvc.perform(post("/api/avaliacaos")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(avaliacao)))
+                .content(TestUtil.convertObjectToJsonBytes(avaliacaoDTO)))
                 .andExpect(status().isCreated());
 
         // Validate the Avaliacao in the database
@@ -117,43 +128,7 @@ public class AvaliacaoResourceIntTest {
         assertThat(avaliacaos).hasSize(databaseSizeBeforeCreate + 1);
         Avaliacao testAvaliacao = avaliacaos.get(avaliacaos.size() - 1);
         assertThat(testAvaliacao.getNota()).isEqualTo(DEFAULT_NOTA);
-        assertThat(testAvaliacao.getFaltas()).isEqualTo(DEFAULT_FALTAS);
-    }
-
-    @Test
-    @Transactional
-    public void checkNotaIsRequired() throws Exception {
-        int databaseSizeBeforeTest = avaliacaoRepository.findAll().size();
-        // set the field null
-        avaliacao.setNota(null);
-
-        // Create the Avaliacao, which fails.
-
-        restAvaliacaoMockMvc.perform(post("/api/avaliacaos")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(avaliacao)))
-                .andExpect(status().isBadRequest());
-
-        List<Avaliacao> avaliacaos = avaliacaoRepository.findAll();
-        assertThat(avaliacaos).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
-    public void checkFaltasIsRequired() throws Exception {
-        int databaseSizeBeforeTest = avaliacaoRepository.findAll().size();
-        // set the field null
-        avaliacao.setFaltas(null);
-
-        // Create the Avaliacao, which fails.
-
-        restAvaliacaoMockMvc.perform(post("/api/avaliacaos")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(avaliacao)))
-                .andExpect(status().isBadRequest());
-
-        List<Avaliacao> avaliacaos = avaliacaoRepository.findAll();
-        assertThat(avaliacaos).hasSize(databaseSizeBeforeTest);
+        assertThat(testAvaliacao.getFrequencia()).isEqualTo(DEFAULT_FREQUENCIA);
     }
 
     @Test
@@ -168,7 +143,7 @@ public class AvaliacaoResourceIntTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(jsonPath("$.[*].id").value(hasItem(avaliacao.getId().intValue())))
                 .andExpect(jsonPath("$.[*].nota").value(hasItem(DEFAULT_NOTA.toString())))
-                .andExpect(jsonPath("$.[*].faltas").value(hasItem(DEFAULT_FALTAS)));
+                .andExpect(jsonPath("$.[*].frequencia").value(hasItem(DEFAULT_FREQUENCIA.doubleValue())));
     }
 
     @Test
@@ -183,7 +158,7 @@ public class AvaliacaoResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(avaliacao.getId().intValue()))
             .andExpect(jsonPath("$.nota").value(DEFAULT_NOTA.toString()))
-            .andExpect(jsonPath("$.faltas").value(DEFAULT_FALTAS));
+            .andExpect(jsonPath("$.frequencia").value(DEFAULT_FREQUENCIA.doubleValue()));
     }
 
     @Test
@@ -205,11 +180,12 @@ public class AvaliacaoResourceIntTest {
         Avaliacao updatedAvaliacao = avaliacaoRepository.findOne(avaliacao.getId());
         updatedAvaliacao
                 .nota(UPDATED_NOTA)
-                .faltas(UPDATED_FALTAS);
+                .frequencia(UPDATED_FREQUENCIA);
+        AvaliacaoDTO avaliacaoDTO = avaliacaoMapper.avaliacaoToAvaliacaoDTO(updatedAvaliacao);
 
         restAvaliacaoMockMvc.perform(put("/api/avaliacaos")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(updatedAvaliacao)))
+                .content(TestUtil.convertObjectToJsonBytes(avaliacaoDTO)))
                 .andExpect(status().isOk());
 
         // Validate the Avaliacao in the database
@@ -217,7 +193,7 @@ public class AvaliacaoResourceIntTest {
         assertThat(avaliacaos).hasSize(databaseSizeBeforeUpdate);
         Avaliacao testAvaliacao = avaliacaos.get(avaliacaos.size() - 1);
         assertThat(testAvaliacao.getNota()).isEqualTo(UPDATED_NOTA);
-        assertThat(testAvaliacao.getFaltas()).isEqualTo(UPDATED_FALTAS);
+        assertThat(testAvaliacao.getFrequencia()).isEqualTo(UPDATED_FREQUENCIA);
     }
 
     @Test

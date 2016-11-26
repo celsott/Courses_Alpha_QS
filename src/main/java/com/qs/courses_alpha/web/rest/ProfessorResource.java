@@ -1,10 +1,9 @@
 package com.qs.courses_alpha.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
-import com.qs.courses_alpha.domain.Professor;
-
-import com.qs.courses_alpha.repository.ProfessorRepository;
+import com.qs.courses_alpha.service.ProfessorService;
 import com.qs.courses_alpha.web.rest.util.HeaderUtil;
+import com.qs.courses_alpha.service.dto.ProfessorDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -16,8 +15,10 @@ import javax.inject.Inject;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * REST controller for managing Professor.
@@ -29,23 +30,23 @@ public class ProfessorResource {
     private final Logger log = LoggerFactory.getLogger(ProfessorResource.class);
         
     @Inject
-    private ProfessorRepository professorRepository;
+    private ProfessorService professorService;
 
     /**
      * POST  /professors : Create a new professor.
      *
-     * @param professor the professor to create
-     * @return the ResponseEntity with status 201 (Created) and with body the new professor, or with status 400 (Bad Request) if the professor has already an ID
+     * @param professorDTO the professorDTO to create
+     * @return the ResponseEntity with status 201 (Created) and with body the new professorDTO, or with status 400 (Bad Request) if the professor has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/professors")
     @Timed
-    public ResponseEntity<Professor> createProfessor(@Valid @RequestBody Professor professor) throws URISyntaxException {
-        log.debug("REST request to save Professor : {}", professor);
-        if (professor.getId() != null) {
+    public ResponseEntity<ProfessorDTO> createProfessor(@Valid @RequestBody ProfessorDTO professorDTO) throws URISyntaxException {
+        log.debug("REST request to save Professor : {}", professorDTO);
+        if (professorDTO.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("professor", "idexists", "A new professor cannot already have an ID")).body(null);
         }
-        Professor result = professorRepository.save(professor);
+        ProfessorDTO result = professorService.save(professorDTO);
         return ResponseEntity.created(new URI("/api/professors/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert("professor", result.getId().toString()))
             .body(result);
@@ -54,22 +55,22 @@ public class ProfessorResource {
     /**
      * PUT  /professors : Updates an existing professor.
      *
-     * @param professor the professor to update
-     * @return the ResponseEntity with status 200 (OK) and with body the updated professor,
-     * or with status 400 (Bad Request) if the professor is not valid,
-     * or with status 500 (Internal Server Error) if the professor couldnt be updated
+     * @param professorDTO the professorDTO to update
+     * @return the ResponseEntity with status 200 (OK) and with body the updated professorDTO,
+     * or with status 400 (Bad Request) if the professorDTO is not valid,
+     * or with status 500 (Internal Server Error) if the professorDTO couldnt be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/professors")
     @Timed
-    public ResponseEntity<Professor> updateProfessor(@Valid @RequestBody Professor professor) throws URISyntaxException {
-        log.debug("REST request to update Professor : {}", professor);
-        if (professor.getId() == null) {
-            return createProfessor(professor);
+    public ResponseEntity<ProfessorDTO> updateProfessor(@Valid @RequestBody ProfessorDTO professorDTO) throws URISyntaxException {
+        log.debug("REST request to update Professor : {}", professorDTO);
+        if (professorDTO.getId() == null) {
+            return createProfessor(professorDTO);
         }
-        Professor result = professorRepository.save(professor);
+        ProfessorDTO result = professorService.save(professorDTO);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert("professor", professor.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert("professor", professorDTO.getId().toString()))
             .body(result);
     }
 
@@ -80,24 +81,23 @@ public class ProfessorResource {
      */
     @GetMapping("/professors")
     @Timed
-    public List<Professor> getAllProfessors() {
+    public List<ProfessorDTO> getAllProfessors() {
         log.debug("REST request to get all Professors");
-        List<Professor> professors = professorRepository.findAll();
-        return professors;
+        return professorService.findAll();
     }
 
     /**
      * GET  /professors/:id : get the "id" professor.
      *
-     * @param id the id of the professor to retrieve
-     * @return the ResponseEntity with status 200 (OK) and with body the professor, or with status 404 (Not Found)
+     * @param id the id of the professorDTO to retrieve
+     * @return the ResponseEntity with status 200 (OK) and with body the professorDTO, or with status 404 (Not Found)
      */
     @GetMapping("/professors/{id}")
     @Timed
-    public ResponseEntity<Professor> getProfessor(@PathVariable Long id) {
+    public ResponseEntity<ProfessorDTO> getProfessor(@PathVariable Long id) {
         log.debug("REST request to get Professor : {}", id);
-        Professor professor = professorRepository.findOne(id);
-        return Optional.ofNullable(professor)
+        ProfessorDTO professorDTO = professorService.findOne(id);
+        return Optional.ofNullable(professorDTO)
             .map(result -> new ResponseEntity<>(
                 result,
                 HttpStatus.OK))
@@ -107,14 +107,14 @@ public class ProfessorResource {
     /**
      * DELETE  /professors/:id : delete the "id" professor.
      *
-     * @param id the id of the professor to delete
+     * @param id the id of the professorDTO to delete
      * @return the ResponseEntity with status 200 (OK)
      */
     @DeleteMapping("/professors/{id}")
     @Timed
     public ResponseEntity<Void> deleteProfessor(@PathVariable Long id) {
         log.debug("REST request to delete Professor : {}", id);
-        professorRepository.delete(id);
+        professorService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("professor", id.toString())).build();
     }
 
