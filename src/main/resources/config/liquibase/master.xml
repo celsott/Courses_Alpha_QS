@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <include file="classpath:config/liquibase/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20161129090647_added_entity_Aluno.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20161129090648_added_entity_Avaliacao.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20161129090649_added_entity_Turma.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20161129090650_added_entity_Sala.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20161129090651_added_entity_Disciplina.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20161129090652_added_entity_Professor.xml" relativeToChangelogFile="false"/>
+    <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
+    <include file="classpath:config/liquibase/changelog/20161129090648_added_entity_constraints_Avaliacao.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20161129090649_added_entity_constraints_Turma.xml" relativeToChangelogFile="false"/>
+    <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
+</databaseChangeLog>

@@ -1,0 +1,43 @@
+
+<div>
+    <h2><span data-translate="coursesAlphaQsApp.turma.detail.title">Turma</span> {{vm.turma.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="dl-horizontal jh-entity-details">
+        <dt><span data-translate="coursesAlphaQsApp.turma.horario">Horario</span></dt>
+        <dd>
+            <span>{{vm.turma.horario}}</span>
+        </dd>
+        <dt><span data-translate="coursesAlphaQsApp.turma.periodo">Periodo</span></dt>
+        <dd>
+            <span>{{vm.turma.periodo}}</span>
+        </dd>
+        <dt><span data-translate="coursesAlphaQsApp.turma.ano">Ano</span></dt>
+        <dd>
+            <span>{{vm.turma.ano}}</span>
+        </dd>
+        <dt><span data-translate="coursesAlphaQsApp.turma.professor">Professor</span></dt>
+        <dd>
+            <a ui-sref="professormySuffix-detail({id:vm.turma.professorId})">{{vm.turma.professorNome}}</a>
+        </dd>
+        <dt><span data-translate="coursesAlphaQsApp.turma.disciplina">Disciplina</span></dt>
+        <dd>
+            <a ui-sref="disciplinamySuffix-detail({id:vm.turma.disciplinaId})">{{vm.turma.disciplinaNome}}</a>
+        </dd>
+        <dt><span data-translate="coursesAlphaQsApp.turma.sala">Sala</span></dt>
+        <dd>
+            <a ui-sref="salamySuffix-detail({id:vm.turma.salaId})">{{vm.turma.salaId}}</a>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            ui-sref="{{ vm.previousState }}"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span data-translate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button" ui-sref="turmamySuffix-detail.edit({id:vm.turma.id})" class="btn btn-primary">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-xs hidden-sm" data-translate="entity.action.edit"> Edit</span>
+    </button>
+</div>

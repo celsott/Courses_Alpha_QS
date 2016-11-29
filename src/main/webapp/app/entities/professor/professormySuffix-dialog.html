@@ -1,0 +1,99 @@
+
+<form name="editForm" role="form" novalidate ng-submit="vm.save()" show-validation>
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                ng-click="vm.clear()">&times;</button>
+        <h4 class="modal-title" id="myProfessorLabel" data-translate="coursesAlphaQsApp.professor.home.createOrEditLabel">Create or edit a Professor</h4>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" ng-show="vm.professor.id">
+            <label for="id" data-translate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                    ng-model="vm.professor.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="coursesAlphaQsApp.professor.nome" for="field_nome">Nome</label>
+            <input type="text" class="form-control" name="nome" id="field_nome"
+                    ng-model="vm.professor.nome"
+                    required />
+            <div ng-show="editForm.nome.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.nome.$error.required" data-translate="entity.validation.required">
+                    This field is required.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="coursesAlphaQsApp.professor.sobrenome" for="field_sobrenome">Sobrenome</label>
+            <input type="text" class="form-control" name="sobrenome" id="field_sobrenome"
+                    ng-model="vm.professor.sobrenome"
+                    required />
+            <div ng-show="editForm.sobrenome.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.sobrenome.$error.required" data-translate="entity.validation.required">
+                    This field is required.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="coursesAlphaQsApp.professor.cpf" for="field_cpf">Cpf</label>
+            <input type="text" class="form-control" name="cpf" id="field_cpf"
+                    ng-model="vm.professor.cpf"
+                    required ng-minlength="11" ng-maxlength="11" />
+            <div ng-show="editForm.cpf.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.cpf.$error.required" data-translate="entity.validation.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.cpf.$error.minlength" data-translate="entity.validation.minlength" translate-value-min="11">
+                    This field is required to be at least 11 characters.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.cpf.$error.maxlength" data-translate="entity.validation.maxlength" translate-value-max="11">
+                    This field cannot be longer than 11 characters.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="coursesAlphaQsApp.professor.dataNascimento" for="field_dataNascimento">Data Nascimento</label>
+                <div class="input-group">
+                    <input id="field_dataNascimento" type="text" class="form-control" name="dataNascimento" uib-datepicker-popup="{{dateformat}}" ng-model="vm.professor.dataNascimento" is-open="vm.datePickerOpenStatus.dataNascimento"
+                    required/>
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="vm.openCalendar('dataNascimento')"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                </div>
+            <div ng-show="editForm.dataNascimento.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.dataNascimento.$error.required" data-translate="entity.validation.required">
+                    This field is required.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="coursesAlphaQsApp.professor.sexo" for="field_sexo">Sexo</label>
+            <select class="form-control" name="sexo" ng-model="vm.professor.sexo" id="field_sexo" required>
+                <option value="M" data-translate="coursesAlphaQsApp.Sexo.M">M</option>
+                <option value="F" data-translate="coursesAlphaQsApp.Sexo.F">F</option>
+            </select>
+            <div ng-show="editForm.sexo.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.sexo.$error.required" data-translate="entity.validation.required">
+                    This field is required.
+                </p>
+            </div>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span data-translate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" ng-disabled="editForm.$invalid || vm.isSaving" class="btn btn-primary">
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span data-translate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>
