@@ -6,10 +6,6 @@ import java.util.Set;
 
 import com.qs.courses_alpha.domain.User;
 import com.qs.courses_alpha.service.dto.UserDTO;
-<<<<<<< HEAD
-=======
-import javax.validation.constraints.NotNull;
->>>>>>> 437b3e0b4eb9ed92e1f0e38b48c64ad9efc2d8d7
 import javax.validation.constraints.Size;
 
 /**

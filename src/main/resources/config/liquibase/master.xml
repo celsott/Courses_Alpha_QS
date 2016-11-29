@@ -5,7 +5,6 @@
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
 
     <include file="classpath:config/liquibase/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false"/>
-<<<<<<< HEAD
     <include file="classpath:config/liquibase/changelog/20161129090647_added_entity_Aluno.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20161129090648_added_entity_Avaliacao.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20161129090649_added_entity_Turma.xml" relativeToChangelogFile="false"/>
@@ -15,16 +14,5 @@
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="classpath:config/liquibase/changelog/20161129090648_added_entity_constraints_Avaliacao.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20161129090649_added_entity_constraints_Turma.xml" relativeToChangelogFile="false"/>
-=======
-    <include file="classpath:config/liquibase/changelog/20161030182004_added_entity_Aluno.xml" relativeToChangelogFile="false"/>
-    <include file="classpath:config/liquibase/changelog/20161030193047_added_entity_Professor.xml" relativeToChangelogFile="false"/>
-    <include file="classpath:config/liquibase/changelog/20161030194243_added_entity_Disciplina.xml" relativeToChangelogFile="false"/>
-    <include file="classpath:config/liquibase/changelog/20161030194447_added_entity_Sala.xml" relativeToChangelogFile="false"/>
-    <include file="classpath:config/liquibase/changelog/20161030195747_added_entity_Turma.xml" relativeToChangelogFile="false"/>
-    <include file="classpath:config/liquibase/changelog/20161030210216_added_entity_Avaliacao.xml" relativeToChangelogFile="false"/>
-    <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
-    <include file="classpath:config/liquibase/changelog/20161030195747_added_entity_constraints_Turma.xml" relativeToChangelogFile="false"/>
-    <include file="classpath:config/liquibase/changelog/20161030210216_added_entity_constraints_Avaliacao.xml" relativeToChangelogFile="false"/>
->>>>>>> 437b3e0b4eb9ed92e1f0e38b48c64ad9efc2d8d7
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>

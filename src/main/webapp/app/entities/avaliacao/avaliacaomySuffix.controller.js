@@ -9,11 +9,7 @@
 
     function AvaliacaoMySuffixController ($scope, $state, Avaliacao) {
         var vm = this;
-<<<<<<< HEAD
 
-=======
-        
->>>>>>> 437b3e0b4eb9ed92e1f0e38b48c64ad9efc2d8d7
         vm.avaliacaos = [];
 
         loadAll();

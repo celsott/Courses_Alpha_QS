@@ -3,7 +3,6 @@ package com.qs.courses_alpha.web.rest.errors;
 /**
  * Custom, parameterized exception, which can be translated on the client side.
  * For example:
-<<<<<<< HEAD
  *
  * <pre>
  * throw new CustomParameterizedException(&quot;myCustomError&quot;, &quot;hello&quot;, &quot;world&quot;);
@@ -11,15 +10,6 @@ package com.qs.courses_alpha.web.rest.errors;
  *
  * Can be translated with:
  *
-=======
- * 
- * <pre>
- * throw new CustomParameterizedException(&quot;myCustomError&quot;, &quot;hello&quot;, &quot;world&quot;);
- * </pre>
- * 
- * Can be translated with:
- * 
->>>>>>> 437b3e0b4eb9ed92e1f0e38b48c64ad9efc2d8d7
  * <pre>
  * "error.myCustomError" :  "The server says {{params[0]}} to {{params[1]}}"
  * </pre>

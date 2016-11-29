@@ -27,11 +27,7 @@
         }
 
         // update the window title using params in the following
-<<<<<<< HEAD
         // precedence
-=======
-        // precendence
->>>>>>> 437b3e0b4eb9ed92e1f0e38b48c64ad9efc2d8d7
         // 1. titleKey parameter
         // 2. $state.$current.data.pageTitle (current state page title)
         // 3. 'global.title'

@@ -2,10 +2,7 @@ package com.qs.courses_alpha.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 
-<<<<<<< HEAD
 import com.qs.courses_alpha.config.JHipsterProperties;
-=======
->>>>>>> 437b3e0b4eb9ed92e1f0e38b48c64ad9efc2d8d7
 import com.qs.courses_alpha.domain.PersistentToken;
 import com.qs.courses_alpha.domain.User;
 import com.qs.courses_alpha.repository.PersistentTokenRepository;
@@ -44,12 +41,9 @@ public class AccountResource {
     private final Logger log = LoggerFactory.getLogger(AccountResource.class);
 
     @Inject
-<<<<<<< HEAD
     private JHipsterProperties jHipsterProperties;
 
     @Inject
-=======
->>>>>>> 437b3e0b4eb9ed92e1f0e38b48c64ad9efc2d8d7
     private UserRepository userRepository;
 
     @Inject
@@ -81,7 +75,6 @@ public class AccountResource {
             .orElseGet(() -> userRepository.findOneByEmail(managedUserVM.getEmail())
                 .map(user -> new ResponseEntity<>("e-mail address already in use", textPlainHeaders, HttpStatus.BAD_REQUEST))
                 .orElseGet(() -> {
-<<<<<<< HEAD
                     User user = userService
                         .createUser(managedUserVM.getLogin(), managedUserVM.getPassword(),
                             managedUserVM.getFirstName(), managedUserVM.getLastName(),
@@ -97,17 +90,6 @@ public class AccountResource {
                         request.getServerPort() +       // "80"
                         request.getContextPath();       // "/myContextPath" or "" if deployed in root context
                     }
-=======
-                    User user = userService.createUser(managedUserVM.getLogin(), managedUserVM.getPassword(),
-                    managedUserVM.getFirstName(), managedUserVM.getLastName(), managedUserVM.getEmail().toLowerCase(),
-                    managedUserVM.getLangKey());
-                    String baseUrl = request.getScheme() + // "http"
-                    "://" +                                // "://"
-                    request.getServerName() +              // "myhost"
-                    ":" +                                  // ":"
-                    request.getServerPort() +              // "80"
-                    request.getContextPath();              // "/myContextPath" or "" if deployed in root context
->>>>>>> 437b3e0b4eb9ed92e1f0e38b48c64ad9efc2d8d7
 
                     mailService.sendActivationEmail(user, baseUrl);
                     return new ResponseEntity<>(HttpStatus.CREATED);

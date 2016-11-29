@@ -1,10 +1,6 @@
 # Courses_Alpha_QS
 
-<<<<<<< HEAD
 This application was generated using JHipster 3.11.0, you can find documentation and help at [https://jhipster.github.io/documentation-archive/v3.11.0](https://jhipster.github.io/documentation-archive/v3.11.0).
-=======
-This application was generated using JHipster 3.10.0, you can find documentation and help at [https://jhipster.github.io/documentation-archive/v3.10.0](https://jhipster.github.io/documentation-archive/v3.10.0).
->>>>>>> 437b3e0b4eb9ed92e1f0e38b48c64ad9efc2d8d7
 
 ## Development
 
@@ -96,7 +92,6 @@ For more information refer to [Using Docker and Docker-Compose][], this page als
 To set up a CI environment, consult the [Setting up Continuous Integration][] page.
 
 [JHipster Homepage and latest documentation]: https://jhipster.github.io
-<<<<<<< HEAD
 [JHipster 3.11.0 archive]: https://jhipster.github.io/documentation-archive/v3.11.0
 
 [Using JHipster in development]: https://jhipster.github.io/documentation-archive/v3.11.0/development/
@@ -104,15 +99,6 @@ To set up a CI environment, consult the [Setting up Continuous Integration][] pa
 [Using JHipster in production]: https://jhipster.github.io/documentation-archive/v3.11.0/production/
 [Running tests page]: https://jhipster.github.io/documentation-archive/v3.11.0/running-tests/
 [Setting up Continuous Integration]: https://jhipster.github.io/documentation-archive/v3.11.0/setting-up-ci/
-=======
-[JHipster 3.10.0 archive]: https://jhipster.github.io/documentation-archive/v3.10.0
-
-[Using JHipster in development]: https://jhipster.github.io/documentation-archive/v3.10.0/development/
-[Using Docker and Docker-Compose]: https://jhipster.github.io/documentation-archive/v3.10.0/docker-compose
-[Using JHipster in production]: https://jhipster.github.io/documentation-archive/v3.10.0/production/
-[Running tests page]: https://jhipster.github.io/documentation-archive/v3.10.0/running-tests/
-[Setting up Continuous Integration]: https://jhipster.github.io/documentation-archive/v3.10.0/setting-up-ci/
->>>>>>> 437b3e0b4eb9ed92e1f0e38b48c64ad9efc2d8d7
 
 [Gatling]: http://gatling.io/
 [Node.js]: https://nodejs.org/

@@ -2,11 +2,7 @@ version: '2'
 services:
     courses_alpha_qs-sonar:
         container_name: courses_alpha_qs-sonar
-<<<<<<< HEAD
         image: sonarqube:6.1-alpine
-=======
-        image: sonarqube:6.0-alpine
->>>>>>> 437b3e0b4eb9ed92e1f0e38b48c64ad9efc2d8d7
         ports:
             - 9000:9000
             - 9092:9092
