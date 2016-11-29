@@ -32,10 +32,18 @@
                     Auth.authorize();
                 }
 
+<<<<<<< HEAD
+=======
+                
+>>>>>>> 437b3e0b4eb9ed92e1f0e38b48c64ad9efc2d8d7
                 // Update the language
                 JhiLanguageService.getCurrent().then(function (language) {
                     $translate.use(language);
                 });
+<<<<<<< HEAD
+=======
+                
+>>>>>>> 437b3e0b4eb9ed92e1f0e38b48c64ad9efc2d8d7
             });
 
             var stateChangeSuccess = $rootScope.$on('$stateChangeSuccess',  function(event, toState, toParams, fromState, fromParams) {

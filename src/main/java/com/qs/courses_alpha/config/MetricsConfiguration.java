@@ -12,6 +12,10 @@ import com.ryantenney.metrics.spring.config.annotation.EnableMetrics;
 import com.ryantenney.metrics.spring.config.annotation.MetricsConfigurerAdapter;
 import com.zaxxer.hikari.HikariDataSource;
 
+<<<<<<< HEAD
+=======
+import fr.ippon.spark.metrics.SparkReporter;
+>>>>>>> 437b3e0b4eb9ed92e1f0e38b48c64ad9efc2d8d7
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -117,4 +121,34 @@ public class MetricsConfiguration extends MetricsConfigurerAdapter {
         }
     }
 
+<<<<<<< HEAD
+=======
+    @Configuration
+    @ConditionalOnClass(SparkReporter.class)
+    public static class SparkRegistry {
+
+        private final Logger log = LoggerFactory.getLogger(SparkRegistry.class);
+
+        @Inject
+        private MetricRegistry metricRegistry;
+
+        @Inject
+        private JHipsterProperties jHipsterProperties;
+
+        @PostConstruct
+        private void init() {
+            if (jHipsterProperties.getMetrics().getSpark().isEnabled()) {
+                log.info("Initializing Metrics Spark reporting");
+                String sparkHost = jHipsterProperties.getMetrics().getSpark().getHost();
+                Integer sparkPort = jHipsterProperties.getMetrics().getSpark().getPort();
+                SparkReporter sparkReporter = SparkReporter.forRegistry(metricRegistry)
+                    .convertRatesTo(TimeUnit.SECONDS)
+                    .convertDurationsTo(TimeUnit.MILLISECONDS)
+                    .build(sparkHost, sparkPort);
+                sparkReporter.start(1, TimeUnit.MINUTES);
+            }
+        }
+    }
+
+>>>>>>> 437b3e0b4eb9ed92e1f0e38b48c64ad9efc2d8d7
 }

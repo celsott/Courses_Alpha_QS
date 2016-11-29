@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 // Generated on 2016-11-29 using generator-jhipster 3.11.0
+=======
+// Generated on 2016-11-26 using generator-jhipster 3.10.0
+>>>>>>> 437b3e0b4eb9ed92e1f0e38b48c64ad9efc2d8d7
 'use strict';
 
 var gulp = require('gulp'),

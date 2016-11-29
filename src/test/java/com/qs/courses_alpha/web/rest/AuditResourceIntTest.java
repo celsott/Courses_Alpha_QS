@@ -12,7 +12,10 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
+<<<<<<< HEAD
 import org.springframework.format.support.FormattingConversionService;
+=======
+>>>>>>> 437b3e0b4eb9ed92e1f0e38b48c64ad9efc2d8d7
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -51,9 +54,12 @@ public class AuditResourceIntTest {
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Inject
+<<<<<<< HEAD
     private FormattingConversionService formattingConversionService;
 
     @Inject
+=======
+>>>>>>> 437b3e0b4eb9ed92e1f0e38b48c64ad9efc2d8d7
     private PageableHandlerMethodArgumentResolver pageableArgumentResolver;
 
     private PersistentAuditEvent auditEvent;
@@ -68,7 +74,10 @@ public class AuditResourceIntTest {
         AuditResource auditResource = new AuditResource(auditEventService);
         this.restAuditMockMvc = MockMvcBuilders.standaloneSetup(auditResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
+<<<<<<< HEAD
             .setConversionService(formattingConversionService)
+=======
+>>>>>>> 437b3e0b4eb9ed92e1f0e38b48c64ad9efc2d8d7
             .setMessageConverters(jacksonMessageConverter).build();
     }
 

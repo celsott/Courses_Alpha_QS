@@ -23,6 +23,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
+<<<<<<< HEAD
+=======
+import javax.annotation.PostConstruct;
+>>>>>>> 437b3e0b4eb9ed92e1f0e38b48c64ad9efc2d8d7
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -40,11 +44,19 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = CoursesAlphaQsApp.class)
 public class DisciplinaResourceIntTest {
 
+<<<<<<< HEAD
     private static final String DEFAULT_CODIGO = "AAAAAAAAAA";
     private static final String UPDATED_CODIGO = "BBBBBBBBBB";
 
     private static final String DEFAULT_NOME = "AAAAAAAAAA";
     private static final String UPDATED_NOME = "BBBBBBBBBB";
+=======
+    private static final String DEFAULT_CODIGO = "AAAAA";
+    private static final String UPDATED_CODIGO = "BBBBB";
+
+    private static final String DEFAULT_NOME = "AAAAA";
+    private static final String UPDATED_NOME = "BBBBB";
+>>>>>>> 437b3e0b4eb9ed92e1f0e38b48c64ad9efc2d8d7
 
     private static final Integer DEFAULT_CREDITOS = 0;
     private static final Integer UPDATED_CREDITOS = 1;
@@ -52,8 +64,13 @@ public class DisciplinaResourceIntTest {
     private static final Integer DEFAULT_CARGA_HORARIA = 0;
     private static final Integer UPDATED_CARGA_HORARIA = 1;
 
+<<<<<<< HEAD
     private static final String DEFAULT_EMENTA = "AAAAAAAAAA";
     private static final String UPDATED_EMENTA = "BBBBBBBBBB";
+=======
+    private static final String DEFAULT_EMENTA = "AAAAA";
+    private static final String UPDATED_EMENTA = "BBBBB";
+>>>>>>> 437b3e0b4eb9ed92e1f0e38b48c64ad9efc2d8d7
 
     @Inject
     private DisciplinaRepository disciplinaRepository;
@@ -77,7 +94,11 @@ public class DisciplinaResourceIntTest {
 
     private Disciplina disciplina;
 
+<<<<<<< HEAD
     @Before
+=======
+    @PostConstruct
+>>>>>>> 437b3e0b4eb9ed92e1f0e38b48c64ad9efc2d8d7
     public void setup() {
         MockitoAnnotations.initMocks(this);
         DisciplinaResource disciplinaResource = new DisciplinaResource();

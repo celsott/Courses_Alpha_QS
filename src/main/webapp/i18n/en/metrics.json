@@ -78,7 +78,11 @@
             "evictioncount": "Eviction count"
         },
         "datasource": {
+<<<<<<< HEAD
             "usage": "Usage",
+=======
+        	"usage": "Usage",
+>>>>>>> 437b3e0b4eb9ed92e1f0e38b48c64ad9efc2d8d7
             "title": "DataSource statistics (time in millisecond)",
             "name": "Pool usage",
             "count": "Count",

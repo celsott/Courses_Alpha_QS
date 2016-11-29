@@ -148,8 +148,11 @@ public class JHipsterProperties {
 
         private String from = "Courses_Alpha_QS@localhost";
 
+<<<<<<< HEAD
         private String baseUrl = "";
 
+=======
+>>>>>>> 437b3e0b4eb9ed92e1f0e38b48c64ad9efc2d8d7
         public String getFrom() {
             return from;
         }
@@ -157,6 +160,7 @@ public class JHipsterProperties {
         public void setFrom(String from) {
             this.from = from;
         }
+<<<<<<< HEAD
 
         public String getBaseUrl() {
             return baseUrl;
@@ -165,6 +169,8 @@ public class JHipsterProperties {
         public void setBaseUrl(String baseUrl) {
             this.baseUrl = baseUrl;
         }
+=======
+>>>>>>> 437b3e0b4eb9ed92e1f0e38b48c64ad9efc2d8d7
     }
 
     public static class Security {
@@ -287,6 +293,11 @@ public class JHipsterProperties {
 
         private final Jmx jmx = new Jmx();
 
+<<<<<<< HEAD
+=======
+        private final Spark spark = new Spark();
+
+>>>>>>> 437b3e0b4eb9ed92e1f0e38b48c64ad9efc2d8d7
         private final Graphite graphite = new Graphite();
 
         private final Logs logs = new Logs();
@@ -295,6 +306,13 @@ public class JHipsterProperties {
             return jmx;
         }
 
+<<<<<<< HEAD
+=======
+        public Spark getSpark() {
+            return spark;
+        }
+
+>>>>>>> 437b3e0b4eb9ed92e1f0e38b48c64ad9efc2d8d7
         public Graphite getGraphite() {
             return graphite;
         }
@@ -316,6 +334,42 @@ public class JHipsterProperties {
             }
         }
 
+<<<<<<< HEAD
+=======
+        public static class Spark {
+
+            private boolean enabled = false;
+
+            private String host = "localhost";
+
+            private int port = 9999;
+
+            public boolean isEnabled() {
+                return enabled;
+            }
+
+            public void setEnabled(boolean enabled) {
+                this.enabled = enabled;
+            }
+
+            public String getHost() {
+                return host;
+            }
+
+            public void setHost(String host) {
+                this.host = host;
+            }
+
+            public int getPort() {
+                return port;
+            }
+
+            public void setPort(int port) {
+                this.port = port;
+            }
+        }
+
+>>>>>>> 437b3e0b4eb9ed92e1f0e38b48c64ad9efc2d8d7
         public static class Graphite {
 
             private boolean enabled = false;

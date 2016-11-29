@@ -8,11 +8,19 @@
             "entities": {
                 "main": "Entities",
                 "alunomySuffix": "Aluno",
+<<<<<<< HEAD
                 "avaliacaomySuffix": "Avaliacao",
                 "turmamySuffix": "Turma",
                 "salamySuffix": "Sala",
                 "disciplinamySuffix": "Disciplina",
                 "professormySuffix": "Professor",
+=======
+                "professormySuffix": "Professor",
+                "disciplinamySuffix": "Disciplina",
+                "salamySuffix": "Sala",
+                "turmamySuffix": "Turma",
+                "avaliacaomySuffix": "Avaliacao",
+>>>>>>> 437b3e0b4eb9ed92e1f0e38b48c64ad9efc2d8d7
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

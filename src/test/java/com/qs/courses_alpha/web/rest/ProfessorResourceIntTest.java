@@ -23,6 +23,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
+<<<<<<< HEAD
+=======
+import javax.annotation.PostConstruct;
+>>>>>>> 437b3e0b4eb9ed92e1f0e38b48c64ad9efc2d8d7
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import java.time.LocalDate;
@@ -43,11 +47,19 @@ import com.qs.courses_alpha.domain.enumeration.Sexo;
 @SpringBootTest(classes = CoursesAlphaQsApp.class)
 public class ProfessorResourceIntTest {
 
+<<<<<<< HEAD
     private static final String DEFAULT_NOME = "AAAAAAAAAA";
     private static final String UPDATED_NOME = "BBBBBBBBBB";
 
     private static final String DEFAULT_SOBRENOME = "AAAAAAAAAA";
     private static final String UPDATED_SOBRENOME = "BBBBBBBBBB";
+=======
+    private static final String DEFAULT_NOME = "AAAAA";
+    private static final String UPDATED_NOME = "BBBBB";
+
+    private static final String DEFAULT_SOBRENOME = "AAAAA";
+    private static final String UPDATED_SOBRENOME = "BBBBB";
+>>>>>>> 437b3e0b4eb9ed92e1f0e38b48c64ad9efc2d8d7
 
     private static final String DEFAULT_CPF = "AAAAAAAAAAA";
     private static final String UPDATED_CPF = "BBBBBBBBBBB";
@@ -80,7 +92,11 @@ public class ProfessorResourceIntTest {
 
     private Professor professor;
 
+<<<<<<< HEAD
     @Before
+=======
+    @PostConstruct
+>>>>>>> 437b3e0b4eb9ed92e1f0e38b48c64ad9efc2d8d7
     public void setup() {
         MockitoAnnotations.initMocks(this);
         ProfessorResource professorResource = new ProfessorResource();

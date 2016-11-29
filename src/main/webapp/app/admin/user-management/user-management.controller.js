@@ -10,7 +10,11 @@
     function UserManagementController(Principal, User, ParseLinks, AlertService, $state, pagingParams, paginationConstants, JhiLanguageService) {
         var vm = this;
 
+<<<<<<< HEAD
         vm.authorities = ['ROLE_USER', 'ROLE_ADMIN', 'ROLE_ALUNO', 'ROLE_PROFESSOR', 'ROLE_SECRETARIA'];
+=======
+        vm.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
+>>>>>>> 437b3e0b4eb9ed92e1f0e38b48c64ad9efc2d8d7
         vm.currentAccount = null;
         vm.languages = null;
         vm.loadAll = loadAll;
@@ -27,6 +31,10 @@
         vm.transition = transition;
 
         vm.loadAll();
+<<<<<<< HEAD
+=======
+        
+>>>>>>> 437b3e0b4eb9ed92e1f0e38b48c64ad9efc2d8d7
         JhiLanguageService.getAll().then(function (languages) {
             vm.languages = languages;
         });

@@ -5,7 +5,11 @@
     <parent>
         <artifactId>spring-boot-starter-parent</artifactId>
         <groupId>org.springframework.boot</groupId>
+<<<<<<< HEAD
         <version>1.4.2.RELEASE</version>
+=======
+        <version>1.4.1.RELEASE</version>
+>>>>>>> 437b3e0b4eb9ed92e1f0e38b48c64ad9efc2d8d7
         <relativePath/>
     </parent>
 
@@ -37,17 +41,29 @@
         <liquibase.version>3.4.2</liquibase.version>
         <liquibase-slf4j.version>2.0.0</liquibase-slf4j.version>
         <liquibase-hibernate4.version>3.5</liquibase-hibernate4.version>
+<<<<<<< HEAD
         <mapstruct.version>1.1.0.CR2</mapstruct.version>
         <m2e.apt.activation>jdt_apt</m2e.apt.activation>
+=======
+        <mapstruct.version>1.0.0.Final</mapstruct.version>
+>>>>>>> 437b3e0b4eb9ed92e1f0e38b48c64ad9efc2d8d7
         <maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
         <maven-enforcer-plugin.version>1.4.1</maven-enforcer-plugin.version>
         <maven-resources-plugin.version>3.0.1</maven-resources-plugin.version>
         <sortpom-maven-plugin.version>2.5.0</sortpom-maven-plugin.version>
+<<<<<<< HEAD
+=======
+        <metrics-spark-reporter.version>1.2</metrics-spark-reporter.version>
+>>>>>>> 437b3e0b4eb9ed92e1f0e38b48c64ad9efc2d8d7
         <metrics-spring.version>3.1.3</metrics-spring.version>
         <logstash-logback-encoder.version>4.7</logstash-logback-encoder.version>
         <run.addResources>false</run.addResources>
         <spring-security.version>4.1.3.RELEASE</spring-security.version>
+<<<<<<< HEAD
         <springfox.version>2.6.1</springfox.version>
+=======
+        <springfox.version>2.5.0</springfox.version>
+>>>>>>> 437b3e0b4eb9ed92e1f0e38b48c64ad9efc2d8d7
         <!-- Sonar properties -->
         <project.testresult.directory>${project.build.directory}/test-results</project.testresult.directory>
         <sonar-maven-plugin.version>3.2</sonar-maven-plugin.version>
@@ -367,6 +383,15 @@
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-data</artifactId>
         </dependency>
+<<<<<<< HEAD
+=======
+        <!-- reporting -->
+        <dependency>
+            <groupId>fr.ippon.spark.metrics</groupId>
+            <artifactId>metrics-spark-reporter</artifactId>
+            <version>${metrics-spark-reporter.version}</version>
+        </dependency>
+>>>>>>> 437b3e0b4eb9ed92e1f0e38b48c64ad9efc2d8d7
         <!-- jhipster-needle-maven-add-dependency -->
     </dependencies>
     <build>
@@ -413,6 +438,7 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+<<<<<<< HEAD
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.6.0</version>
                 <configuration>
@@ -427,6 +453,8 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+=======
+>>>>>>> 437b3e0b4eb9ed92e1f0e38b48c64ad9efc2d8d7
                 <artifactId>maven-eclipse-plugin</artifactId>
                 <configuration>
                     <downloadSources>true</downloadSources>
@@ -540,6 +568,42 @@
                 <version>${sonar-maven-plugin.version}</version>
             </plugin>
             <plugin>
+<<<<<<< HEAD
+=======
+                <groupId>org.bsc.maven</groupId>
+                <artifactId>maven-processor-plugin</artifactId>
+                <version>2.2.4</version>
+                <configuration>
+                    <defaultOutputDirectory>
+                        ${project.build.directory}/generated-sources
+                    </defaultOutputDirectory>
+                    <processors>
+                        <processor>org.mapstruct.ap.MappingProcessor</processor>
+                    </processors>
+                    <options>
+                        <mapstruct.suppressGeneratorTimestamp>true</mapstruct.suppressGeneratorTimestamp>
+                        <mapstruct.defaultComponentModel>spring</mapstruct.defaultComponentModel>
+                    </options>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>process</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>process</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.mapstruct</groupId>
+                        <artifactId>mapstruct-processor</artifactId>
+                        <version>${mapstruct.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <plugin>
+>>>>>>> 437b3e0b4eb9ed92e1f0e38b48c64ad9efc2d8d7
                 <groupId>org.liquibase</groupId>
                 <artifactId>liquibase-maven-plugin</artifactId>
                 <version>${liquibase.version}</version>
@@ -738,8 +802,13 @@
                                     <goal>install-node-and-npm</goal>
                                 </goals>
                                 <configuration>
+<<<<<<< HEAD
                                     <nodeVersion>v6.9.1</nodeVersion>
                                     <npmVersion>3.10.9</npmVersion>
+=======
+                                    <nodeVersion>v4.6.0</nodeVersion>
+                                    <npmVersion>3.10.8</npmVersion>
+>>>>>>> 437b3e0b4eb9ed92e1f0e38b48c64ad9efc2d8d7
                                 </configuration>
                             </execution>
                             <execution>

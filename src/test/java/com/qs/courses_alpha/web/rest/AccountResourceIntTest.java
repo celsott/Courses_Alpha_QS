@@ -1,7 +1,10 @@
 package com.qs.courses_alpha.web.rest;
 
 import com.qs.courses_alpha.CoursesAlphaQsApp;
+<<<<<<< HEAD
 import com.qs.courses_alpha.config.JHipsterProperties;
+=======
+>>>>>>> 437b3e0b4eb9ed92e1f0e38b48c64ad9efc2d8d7
 import com.qs.courses_alpha.domain.Authority;
 import com.qs.courses_alpha.domain.User;
 import com.qs.courses_alpha.repository.AuthorityRepository;
@@ -46,9 +49,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class AccountResourceIntTest {
 
     @Inject
+<<<<<<< HEAD
     private JHipsterProperties jHipsterProperties;
 
     @Inject
+=======
+>>>>>>> 437b3e0b4eb9ed92e1f0e38b48c64ad9efc2d8d7
     private UserRepository userRepository;
 
     @Inject
@@ -73,7 +79,10 @@ public class AccountResourceIntTest {
         doNothing().when(mockMailService).sendActivationEmail((User) anyObject(), anyString());
 
         AccountResource accountResource = new AccountResource();
+<<<<<<< HEAD
         ReflectionTestUtils.setField(accountResource, "jHipsterProperties", jHipsterProperties);
+=======
+>>>>>>> 437b3e0b4eb9ed92e1f0e38b48c64ad9efc2d8d7
         ReflectionTestUtils.setField(accountResource, "userRepository", userRepository);
         ReflectionTestUtils.setField(accountResource, "userService", userService);
         ReflectionTestUtils.setField(accountResource, "mailService", mockMailService);

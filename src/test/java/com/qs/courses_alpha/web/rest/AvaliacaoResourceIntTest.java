@@ -25,6 +25,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
+<<<<<<< HEAD
+=======
+import javax.annotation.PostConstruct;
+>>>>>>> 437b3e0b4eb9ed92e1f0e38b48c64ad9efc2d8d7
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -71,7 +75,11 @@ public class AvaliacaoResourceIntTest {
 
     private Avaliacao avaliacao;
 
+<<<<<<< HEAD
     @Before
+=======
+    @PostConstruct
+>>>>>>> 437b3e0b4eb9ed92e1f0e38b48c64ad9efc2d8d7
     public void setup() {
         MockitoAnnotations.initMocks(this);
         AvaliacaoResource avaliacaoResource = new AvaliacaoResource();

@@ -33,7 +33,11 @@
             "fieldValidateRulesMax": 1
         }
     ],
+<<<<<<< HEAD
     "changelogDate": "20161129090648",
+=======
+    "changelogDate": "20161030210216",
+>>>>>>> 437b3e0b4eb9ed92e1f0e38b48c64ad9efc2d8d7
     "entityTableName": "avaliacao",
     "dto": "mapstruct",
     "pagination": "no",

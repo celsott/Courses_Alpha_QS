@@ -141,7 +141,11 @@ public class UserResource {
 
     /**
      * GET  /users : get all users.
+<<<<<<< HEAD
      *
+=======
+     * 
+>>>>>>> 437b3e0b4eb9ed92e1f0e38b48c64ad9efc2d8d7
      * @param pageable the pagination information
      * @return the ResponseEntity with status 200 (OK) and with body all users
      * @throws URISyntaxException if the pagination headers couldn't be generated

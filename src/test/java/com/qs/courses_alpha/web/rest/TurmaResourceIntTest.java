@@ -25,6 +25,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
+<<<<<<< HEAD
+=======
+import javax.annotation.PostConstruct;
+>>>>>>> 437b3e0b4eb9ed92e1f0e38b48c64ad9efc2d8d7
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -42,8 +46,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = CoursesAlphaQsApp.class)
 public class TurmaResourceIntTest {
 
+<<<<<<< HEAD
     private static final String DEFAULT_HORARIO = "AAAAAAAAAA";
     private static final String UPDATED_HORARIO = "BBBBBBBBBB";
+=======
+    private static final String DEFAULT_HORARIO = "AAAAA";
+    private static final String UPDATED_HORARIO = "BBBBB";
+>>>>>>> 437b3e0b4eb9ed92e1f0e38b48c64ad9efc2d8d7
 
     private static final Integer DEFAULT_PERIODO = 1;
     private static final Integer UPDATED_PERIODO = 2;
@@ -73,7 +82,11 @@ public class TurmaResourceIntTest {
 
     private Turma turma;
 
+<<<<<<< HEAD
     @Before
+=======
+    @PostConstruct
+>>>>>>> 437b3e0b4eb9ed92e1f0e38b48c64ad9efc2d8d7
     public void setup() {
         MockitoAnnotations.initMocks(this);
         TurmaResource turmaResource = new TurmaResource();

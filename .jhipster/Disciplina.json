@@ -49,7 +49,11 @@
             ]
         }
     ],
+<<<<<<< HEAD
     "changelogDate": "20161129090651",
+=======
+    "changelogDate": "20161030194243",
+>>>>>>> 437b3e0b4eb9ed92e1f0e38b48c64ad9efc2d8d7
     "entityTableName": "disciplina",
     "dto": "mapstruct",
     "pagination": "no",

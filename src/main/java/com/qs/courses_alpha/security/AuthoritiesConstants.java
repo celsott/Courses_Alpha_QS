@@ -11,12 +11,15 @@ public final class AuthoritiesConstants {
 
     public static final String ANONYMOUS = "ROLE_ANONYMOUS";
 
+<<<<<<< HEAD
     public static final String ALUNO = "ROLE_ALUNO";
 
     public static final String SECRETARIA = "ROLE_SECRETARIA";
 
     public static final String PROFESSOR = "ROLE_PROFESSOR";
 
+=======
+>>>>>>> 437b3e0b4eb9ed92e1f0e38b48c64ad9efc2d8d7
     private AuthoritiesConstants() {
     }
 }
