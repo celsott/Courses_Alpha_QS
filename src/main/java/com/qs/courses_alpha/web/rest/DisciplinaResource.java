@@ -127,6 +127,11 @@ public class DisciplinaResource {
     @Timed
     public ResponseEntity<Void> deleteDisciplina(@PathVariable Long id) {
         log.debug("REST request to delete Disciplina : {}", id);
+        
+        if(!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN) && !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.SECRETARIA)){
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("disciplina", "accessdenied", "You are not authorized to access the page")).body(null);
+        }
+
         disciplinaService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("disciplina", id.toString())).build();
     }
