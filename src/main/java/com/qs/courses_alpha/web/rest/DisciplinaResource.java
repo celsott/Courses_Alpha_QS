@@ -20,6 +20,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.qs.courses_alpha.security.AuthoritiesConstants;
+import com.qs.courses_alpha.security.SecurityUtils;
+
 /**
  * REST controller for managing Disciplina.
  */
@@ -46,6 +49,11 @@ public class DisciplinaResource {
         if (disciplinaDTO.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("disciplina", "idexists", "A new disciplina cannot already have an ID")).body(null);
         }
+
+        if(!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN) && !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.SECRETARIA)){
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("disciplina", "accessdenied", "You are not authorized to access the page")).body(null);
+        }
+
         DisciplinaDTO result = disciplinaService.save(disciplinaDTO);
         return ResponseEntity.created(new URI("/api/disciplinas/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert("disciplina", result.getId().toString()))
@@ -68,6 +76,11 @@ public class DisciplinaResource {
         if (disciplinaDTO.getId() == null) {
             return createDisciplina(disciplinaDTO);
         }
+
+        if(!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN) && !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.SECRETARIA)){
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("disciplina", "accessdenied", "You are not authorized to access the page")).body(null);
+        }
+
         DisciplinaDTO result = disciplinaService.save(disciplinaDTO);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert("disciplina", disciplinaDTO.getId().toString()))
