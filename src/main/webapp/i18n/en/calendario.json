@@ -1,0 +1,24 @@
+{
+    "coursesAlphaQsApp": {
+        "calendario" : {
+            "home": {
+                "title": "Calendarios",
+                "createLabel": "Create a new Calendario",
+                "createOrEditLabel": "Create or edit a Calendario",
+                "search": "Search for Calendario"
+            },
+            "created": "A new Calendario is created with identifier {{ param }}",
+            "updated": "A Calendario is updated with identifier {{ param }}",
+            "deleted": "A Calendario is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Calendario {{ id }}?"
+            },
+            "detail": {
+                "title": "Calendario"
+            },
+            "evento": "Evento",
+            "dataInicio": "Data Inicio",
+            "dataFim": "Data Fim"
+        }
+    }
+}

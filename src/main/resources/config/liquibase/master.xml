@@ -11,6 +11,7 @@
     <include file="classpath:config/liquibase/changelog/20161129090650_added_entity_Sala.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20161129090651_added_entity_Disciplina.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20161129090652_added_entity_Professor.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20161202021110_added_entity_Calendario.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="classpath:config/liquibase/changelog/20161129090648_added_entity_constraints_Avaliacao.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20161129090649_added_entity_constraints_Turma.xml" relativeToChangelogFile="false"/>

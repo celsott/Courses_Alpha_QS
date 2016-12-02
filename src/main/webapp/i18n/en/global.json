@@ -13,6 +13,7 @@
                 "salamySuffix": "Sala",
                 "disciplinamySuffix": "Disciplina",
                 "professormySuffix": "Professor",
+                "calendario": "Calendario",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {
