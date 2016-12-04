@@ -5,15 +5,15 @@
         .module('coursesAlphaQsApp')
         .controller('TurmaMySuffixDialogController', TurmaMySuffixDialogController);
 
-    TurmaMySuffixDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Turma', 'Avaliacao', 'Professor', 'Disciplina', 'Sala'];
+    TurmaMySuffixDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Turma', 'Inscricao', 'Professor', 'Disciplina', 'Sala'];
 
-    function TurmaMySuffixDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity, Turma, Avaliacao, Professor, Disciplina, Sala) {
+    function TurmaMySuffixDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity, Turma, Inscricao, Professor, Disciplina, Sala) {
         var vm = this;
 
         vm.turma = entity;
         vm.clear = clear;
         vm.save = save;
-        vm.avaliacaos = Avaliacao.query();
+        vm.inscricaos = Inscricao.query();
         vm.professors = Professor.query();
         vm.disciplinas = Disciplina.query();
         vm.salas = Sala.query();

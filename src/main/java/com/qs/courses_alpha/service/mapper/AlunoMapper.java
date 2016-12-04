@@ -16,7 +16,7 @@ public interface AlunoMapper {
 
     List<AlunoDTO> alunosToAlunoDTOs(List<Aluno> alunos);
 
-    @Mapping(target = "avaliacaos", ignore = true)
+    @Mapping(target = "inscricaos", ignore = true)
     Aluno alunoDTOToAluno(AlunoDTO alunoDTO);
 
     List<Aluno> alunoDTOsToAlunos(List<AlunoDTO> alunoDTOs);

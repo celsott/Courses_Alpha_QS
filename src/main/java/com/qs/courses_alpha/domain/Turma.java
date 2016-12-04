@@ -42,7 +42,7 @@ public class Turma implements Serializable {
     @OneToMany(mappedBy = "turma")
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Avaliacao> avaliacaos = new HashSet<>();
+    private Set<Inscricao> inscricaos = new HashSet<>();
 
     @ManyToOne
     @NotNull
@@ -102,29 +102,29 @@ public class Turma implements Serializable {
         this.ano = ano;
     }
 
-    public Set<Avaliacao> getAvaliacaos() {
-        return avaliacaos;
+    public Set<Inscricao> getInscricaos() {
+        return inscricaos;
     }
 
-    public Turma avaliacaos(Set<Avaliacao> avaliacaos) {
-        this.avaliacaos = avaliacaos;
+    public Turma inscricaos(Set<Inscricao> inscricaos) {
+        this.inscricaos = inscricaos;
         return this;
     }
 
-    public Turma addAvaliacao(Avaliacao avaliacao) {
-        avaliacaos.add(avaliacao);
-        avaliacao.setTurma(this);
+    public Turma addInscricao(Inscricao inscricao) {
+        inscricaos.add(inscricao);
+        inscricao.setTurma(this);
         return this;
     }
 
-    public Turma removeAvaliacao(Avaliacao avaliacao) {
-        avaliacaos.remove(avaliacao);
-        avaliacao.setTurma(null);
+    public Turma removeInscricao(Inscricao inscricao) {
+        inscricaos.remove(inscricao);
+        inscricao.setTurma(null);
         return this;
     }
 
-    public void setAvaliacaos(Set<Avaliacao> avaliacaos) {
-        this.avaliacaos = avaliacaos;
+    public void setInscricaos(Set<Inscricao> inscricaos) {
+        this.inscricaos = inscricaos;
     }
 
     public Professor getProfessor() {

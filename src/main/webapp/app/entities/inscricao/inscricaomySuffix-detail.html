@@ -1,0 +1,39 @@
+
+<div>
+    <h2><span data-translate="coursesAlphaQsApp.inscricao.detail.title">Inscricao</span> {{vm.inscricao.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="dl-horizontal jh-entity-details">
+        <dt><span data-translate="coursesAlphaQsApp.inscricao.situacao">Situacao</span></dt>
+        <dd>
+            <span data-translate="{{'coursesAlphaQsApp.Situacao.' + vm.inscricao.situacao}}">{{vm.inscricao.situacao}}</span>
+        </dd>
+        <dt><span data-translate="coursesAlphaQsApp.inscricao.nota">Nota</span></dt>
+        <dd>
+            <span data-translate="{{'coursesAlphaQsApp.Nota.' + vm.inscricao.nota}}">{{vm.inscricao.nota}}</span>
+        </dd>
+        <dt><span data-translate="coursesAlphaQsApp.inscricao.frequencia">Frequencia</span></dt>
+        <dd>
+            <span>{{vm.inscricao.frequencia}}</span>
+        </dd>
+        <dt><span data-translate="coursesAlphaQsApp.inscricao.turma">Turma</span></dt>
+        <dd>
+            <a ui-sref="turmamySuffix-detail({id:vm.inscricao.turmaId})">{{vm.inscricao.turmaId}}</a>
+        </dd>
+        <dt><span data-translate="coursesAlphaQsApp.inscricao.aluno">Aluno</span></dt>
+        <dd>
+            <a ui-sref="alunomySuffix-detail({id:vm.inscricao.alunoId})">{{vm.inscricao.alunoNome}}</a>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            ui-sref="{{ vm.previousState }}"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span data-translate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button" ui-sref="inscricaomySuffix-detail.edit({id:vm.inscricao.id})" class="btn btn-primary">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-xs hidden-sm" data-translate="entity.action.edit"> Edit</span>
+    </button>
+</div>

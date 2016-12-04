@@ -5,9 +5,9 @@
         .module('coursesAlphaQsApp')
         .controller('TurmaMySuffixDetailController', TurmaMySuffixDetailController);
 
-    TurmaMySuffixDetailController.$inject = ['$scope', '$rootScope', '$stateParams', 'previousState', 'entity', 'Turma', 'Avaliacao', 'Professor', 'Disciplina', 'Sala'];
+    TurmaMySuffixDetailController.$inject = ['$scope', '$rootScope', '$stateParams', 'previousState', 'entity', 'Turma', 'Inscricao', 'Professor', 'Disciplina', 'Sala'];
 
-    function TurmaMySuffixDetailController($scope, $rootScope, $stateParams, previousState, entity, Turma, Avaliacao, Professor, Disciplina, Sala) {
+    function TurmaMySuffixDetailController($scope, $rootScope, $stateParams, previousState, entity, Turma, Inscricao, Professor, Disciplina, Sala) {
         var vm = this;
 
         vm.turma = entity;

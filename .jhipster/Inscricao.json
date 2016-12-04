@@ -1,0 +1,50 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "relationshipValidateRules": "required",
+            "relationshipName": "turma",
+            "otherEntityName": "turma",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipValidateRules": "required",
+            "relationshipName": "aluno",
+            "otherEntityName": "aluno",
+            "otherEntityField": "nome"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "situacao",
+            "fieldType": "Situacao",
+            "fieldValues": "A,B,C,D",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "nota",
+            "fieldType": "Nota",
+            "fieldValues": "A,B,C,D"
+        },
+        {
+            "fieldName": "frequencia",
+            "fieldType": "Float",
+            "fieldValidateRules": [
+                "min",
+                "max"
+            ],
+            "fieldValidateRulesMin": 0,
+            "fieldValidateRulesMax": 1
+        }
+    ],
+    "changelogDate": "20161204191856",
+    "entityTableName": "inscricao",
+    "dto": "mapstruct",
+    "pagination": "no",
+    "service": "serviceImpl",
+    "angularJSSuffix": "mySuffix"
+}

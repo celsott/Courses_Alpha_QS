@@ -67,7 +67,7 @@ jhipster:
     security:
         rememberMe:
             # security key (this key should be unique for your application, and kept secret)
-            key: 5cd76451d3e251127eb4a8893836d0aa01a36106
+            key: 18e9d2fc2504a02fb9bfbe277fd7a8cc9b3baad5
     mail: # specific JHipster mail property, for standard properties see MailProperties
         from: Courses_Alpha_QS@localhost
         baseUrl: # keep empty to use the server's default URL

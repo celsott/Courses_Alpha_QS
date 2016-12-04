@@ -3,8 +3,8 @@
     "relationships": [
         {
             "relationshipType": "one-to-many",
-            "relationshipName": "avaliacao",
-            "otherEntityName": "avaliacao",
+            "relationshipName": "inscricao",
+            "otherEntityName": "inscricao",
             "otherEntityRelationshipName": "turma"
         },
         {
@@ -55,11 +55,7 @@
             ]
         }
     ],
-<<<<<<< HEAD
-    "changelogDate": "20161129090649",
-=======
-    "changelogDate": "20161030195747",
->>>>>>> 437b3e0b4eb9ed92e1f0e38b48c64ad9efc2d8d7
+    "changelogDate": "20161204191857",
     "entityTableName": "turma",
     "dto": "mapstruct",
     "pagination": "no",

@@ -1,7 +1,6 @@
 {
   "generator-jhipster": {
     "jhipsterVersion": "3.11.0",
-    "jhipsterVersion": "3.10.0",
     "baseName": "Courses_Alpha_QS",
     "packageName": "com.qs.courses_alpha",
     "packageFolder": "com/qs/courses_alpha",
@@ -17,7 +16,6 @@
     "messageBroker": false,
     "buildTool": "maven",
     "enableSocialSignIn": false,
-    "rememberMeKey": "5cd76451d3e251127eb4a8893836d0aa01a36106",
     "rememberMeKey": "18e9d2fc2504a02fb9bfbe277fd7a8cc9b3baad5",
     "useSass": false,
     "applicationType": "monolith",
@@ -29,6 +27,7 @@
     "nativeLanguage": "en",
     "languages": [
       "en"
-    ]
+    ],
+    "serviceDiscoveryType": false
   }
 }

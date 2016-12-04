@@ -5,9 +5,9 @@
         .module('coursesAlphaQsApp')
         .controller('AlunoMySuffixDialogController', AlunoMySuffixDialogController);
 
-    AlunoMySuffixDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Aluno', 'Avaliacao'];
+    AlunoMySuffixDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Aluno', 'Inscricao'];
 
-    function AlunoMySuffixDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity, Aluno, Avaliacao) {
+    function AlunoMySuffixDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity, Aluno, Inscricao) {
         var vm = this;
 
         vm.aluno = entity;
@@ -15,7 +15,7 @@
         vm.datePickerOpenStatus = {};
         vm.openCalendar = openCalendar;
         vm.save = save;
-        vm.avaliacaos = Avaliacao.query();
+        vm.inscricaos = Inscricao.query();
 
         $timeout(function (){
             angular.element('.form-group:eq(1)>input').focus();

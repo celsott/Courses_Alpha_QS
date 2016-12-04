@@ -20,7 +20,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import java.time.LocalDate;
@@ -40,8 +39,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = CoursesAlphaQsApp.class)
 public class CalendarioResourceIntTest {
 
-    private static final String DEFAULT_EVENTO = "AAAAA";
-    private static final String UPDATED_EVENTO = "BBBBB";
+    private static final String DEFAULT_EVENTO = "AAAAAAAAAA";
+    private static final String UPDATED_EVENTO = "BBBBBBBBBB";
 
     private static final LocalDate DEFAULT_DATA_INICIO = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_DATA_INICIO = LocalDate.now(ZoneId.systemDefault());
@@ -65,7 +64,7 @@ public class CalendarioResourceIntTest {
 
     private Calendario calendario;
 
-    @PostConstruct
+    @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
         CalendarioResource calendarioResource = new CalendarioResource();

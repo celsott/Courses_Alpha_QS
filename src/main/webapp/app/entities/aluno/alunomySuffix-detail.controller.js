@@ -5,9 +5,9 @@
         .module('coursesAlphaQsApp')
         .controller('AlunoMySuffixDetailController', AlunoMySuffixDetailController);
 
-    AlunoMySuffixDetailController.$inject = ['$scope', '$rootScope', '$stateParams', 'previousState', 'entity', 'Aluno', 'Avaliacao'];
+    AlunoMySuffixDetailController.$inject = ['$scope', '$rootScope', '$stateParams', 'previousState', 'entity', 'Aluno', 'Inscricao'];
 
-    function AlunoMySuffixDetailController($scope, $rootScope, $stateParams, previousState, entity, Aluno, Avaliacao) {
+    function AlunoMySuffixDetailController($scope, $rootScope, $stateParams, previousState, entity, Aluno, Inscricao) {
         var vm = this;
 
         vm.aluno = entity;

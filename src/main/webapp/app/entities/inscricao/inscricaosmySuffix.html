@@ -1,0 +1,68 @@
+<div>
+    <h2 data-translate="coursesAlphaQsApp.inscricao.home.title">Inscricaos</h2>
+    <jhi-alert></jhi-alert>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-4 no-padding-left">
+                <button class="btn btn-primary" ui-sref="inscricaomySuffix.new" >
+                    <span class="glyphicon glyphicon-plus"></span>
+                    <span  data-translate="coursesAlphaQsApp.inscricao.home.createLabel">
+                        Create new Inscricao
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive">
+        <table class="jh-table table table-striped">
+            <thead>
+                <tr>
+                    <th><span data-translate="global.field.id">ID</span></th>
+                    <th><span data-translate="coursesAlphaQsApp.inscricao.situacao">Situacao</span></th>
+                    <th><span data-translate="coursesAlphaQsApp.inscricao.nota">Nota</span></th>
+                    <th><span data-translate="coursesAlphaQsApp.inscricao.frequencia">Frequencia</span></th>
+                    <th><span data-translate="coursesAlphaQsApp.inscricao.turma">Turma</span></th>
+                    <th><span data-translate="coursesAlphaQsApp.inscricao.aluno">Aluno</span></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="inscricao in vm.inscricaos track by inscricao.id">
+                    <td><a ui-sref="inscricaomySuffix-detail({id:inscricao.id})">{{inscricao.id}}</a></td>
+                    <td data-translate="{{'coursesAlphaQsApp.Situacao.' + inscricao.situacao}}">{{inscricao.situacao}}</td>
+                    <td data-translate="{{'coursesAlphaQsApp.Nota.' + inscricao.nota}}">{{inscricao.nota}}</td>
+                    <td>{{inscricao.frequencia}}</td>
+                    <td>
+                        <a ui-sref="turmamySuffix-detail({id:inscricao.turmaId})">{{inscricao.turmaId}}</a>
+                    </td>
+                    <td>
+                        <a ui-sref="alunomySuffix-detail({id:inscricao.alunoId})">{{inscricao.alunoNome}}</a>
+                    </td>
+                    <td class="text-right">
+                        <div class="btn-group flex-btn-group-container">
+                            <button type="submit"
+                                    ui-sref="inscricaomySuffix-detail({id:inscricao.id})"
+                                    class="btn btn-info btn-sm">
+                                <span class="glyphicon glyphicon-eye-open"></span>
+                                <span class="hidden-xs hidden-sm" data-translate="entity.action.view"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="inscricaomySuffix.edit({id:inscricao.id})"
+                                    class="btn btn-primary btn-sm">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                                <span class="hidden-xs hidden-sm" data-translate="entity.action.edit"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="inscricaomySuffix.delete({id:inscricao.id})"
+                                    class="btn btn-danger btn-sm">
+                                <span class="glyphicon glyphicon-remove-circle"></span>
+                                <span class="hidden-xs hidden-sm" data-translate="entity.action.delete"></span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

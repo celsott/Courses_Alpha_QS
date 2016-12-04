@@ -58,7 +58,7 @@ public class Aluno implements Serializable {
     @OneToMany(mappedBy = "aluno")
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Avaliacao> avaliacaos = new HashSet<>();
+    private Set<Inscricao> inscricaos = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -146,29 +146,29 @@ public class Aluno implements Serializable {
         this.sexo = sexo;
     }
 
-    public Set<Avaliacao> getAvaliacaos() {
-        return avaliacaos;
+    public Set<Inscricao> getInscricaos() {
+        return inscricaos;
     }
 
-    public Aluno avaliacaos(Set<Avaliacao> avaliacaos) {
-        this.avaliacaos = avaliacaos;
+    public Aluno inscricaos(Set<Inscricao> inscricaos) {
+        this.inscricaos = inscricaos;
         return this;
     }
 
-    public Aluno addAvaliacao(Avaliacao avaliacao) {
-        avaliacaos.add(avaliacao);
-        avaliacao.setAluno(this);
+    public Aluno addInscricao(Inscricao inscricao) {
+        inscricaos.add(inscricao);
+        inscricao.setAluno(this);
         return this;
     }
 
-    public Aluno removeAvaliacao(Avaliacao avaliacao) {
-        avaliacaos.remove(avaliacao);
-        avaliacao.setAluno(null);
+    public Aluno removeInscricao(Inscricao inscricao) {
+        inscricaos.remove(inscricao);
+        inscricao.setAluno(null);
         return this;
     }
 
-    public void setAvaliacaos(Set<Avaliacao> avaliacaos) {
-        this.avaliacaos = avaliacaos;
+    public void setInscricaos(Set<Inscricao> inscricaos) {
+        this.inscricaos = inscricaos;
     }
 
     @Override

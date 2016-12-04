@@ -21,7 +21,7 @@ public interface TurmaMapper {
 
     List<TurmaDTO> turmasToTurmaDTOs(List<Turma> turmas);
 
-    @Mapping(target = "avaliacaos", ignore = true)
+    @Mapping(target = "inscricaos", ignore = true)
     @Mapping(source = "professorId", target = "professor")
     @Mapping(source = "disciplinaId", target = "disciplina")
     @Mapping(source = "salaId", target = "sala")

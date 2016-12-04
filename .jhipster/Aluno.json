@@ -3,8 +3,8 @@
     "relationships": [
         {
             "relationshipType": "one-to-many",
-            "relationshipName": "avaliacao",
-            "otherEntityName": "avaliacao",
+            "relationshipName": "inscricao",
+            "otherEntityName": "inscricao",
             "otherEntityRelationshipName": "aluno"
         }
     ],
@@ -61,11 +61,7 @@
             ]
         }
     ],
-<<<<<<< HEAD
-    "changelogDate": "20161129090647",
-=======
-    "changelogDate": "20161030182004",
->>>>>>> 437b3e0b4eb9ed92e1f0e38b48c64ad9efc2d8d7
+    "changelogDate": "20161204191855",
     "entityTableName": "aluno",
     "dto": "mapstruct",
     "pagination": "no",

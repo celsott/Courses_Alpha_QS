@@ -7,12 +7,12 @@
             "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
             "entities": {
                 "main": "Entities",
+                "professormySuffix": "Professor",
                 "alunomySuffix": "Aluno",
-                "avaliacaomySuffix": "Avaliacao",
+                "inscricaomySuffix": "Inscricao",
                 "turmamySuffix": "Turma",
                 "salamySuffix": "Sala",
                 "disciplinamySuffix": "Disciplina",
-                "professormySuffix": "Professor",
                 "calendario": "Calendario",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
