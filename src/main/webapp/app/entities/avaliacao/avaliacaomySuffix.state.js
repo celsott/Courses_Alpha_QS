@@ -13,7 +13,7 @@
             parent: 'entity',
             url: '/avaliacaomySuffix',
             data: {
-                authorities: ['ROLE_USER'],
+                authorities: ['ROLE_USER', 'ROLE_SECRETARIA', 'ROLE_PROFESSOR'],
                 pageTitle: 'coursesAlphaQsApp.avaliacao.home.title'
             },
             views: {
@@ -36,7 +36,7 @@
             parent: 'entity',
             url: '/avaliacaomySuffix/{id}',
             data: {
-                authorities: ['ROLE_USER'],
+                authorities: ['ROLE_USER', 'ROLE_SECRETARIA', 'ROLE_PROFESSOR'],
                 pageTitle: 'coursesAlphaQsApp.avaliacao.detail.title'
             },
             views: {
@@ -69,7 +69,7 @@
             parent: 'avaliacaomySuffix-detail',
             url: '/detail/edit',
             data: {
-                authorities: ['ROLE_USER']
+                authorities: ['ROLE_USER', 'ROLE_SECRETARIA', 'ROLE_PROFESSOR']
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
@@ -94,7 +94,7 @@
             parent: 'avaliacaomySuffix',
             url: '/new',
             data: {
-                authorities: ['ROLE_USER']
+                authorities: ['ROLE_USER', 'ROLE_SECRETARIA']
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
@@ -123,7 +123,7 @@
             parent: 'avaliacaomySuffix',
             url: '/{id}/edit',
             data: {
-                authorities: ['ROLE_USER']
+                authorities: ['ROLE_USER', 'ROLE_SECRETARIA', 'ROLE_PROFESSOR']
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
@@ -148,7 +148,7 @@
             parent: 'avaliacaomySuffix',
             url: '/{id}/delete',
             data: {
-                authorities: ['ROLE_USER']
+                authorities: ['ROLE_USER', 'ROLE_SECRETARIA']
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
